@@ -3,20 +3,15 @@ package gameClient;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import Server.game_service;
 import dataStructure.DGraph;
 import dataStructure.EdgeData;
 import dataStructure.NodeData;
 import dataStructure.edge_data;
 import dataStructure.node_data;
-import oop_dataStructure.oop_edge_data;
-import oop_dataStructure.oop_graph;
 import utils.Point3D;
 
 public class GameAlgorithms 
@@ -356,9 +351,9 @@ public class GameAlgorithms
 	public node_data nodeYouCloseTo(DGraph dg ,Point3D clickPoint) // if not close to any node - return null
 	{
 		boolean foundNode=false;
-		double min=999999;
+		double min=Integer.MAX_VALUE;
 		node_data ansNode= new NodeData();
-		Iterator<node_data> itN = dg.getV().iterator(); //
+		Iterator<node_data> itN = dg.getV().iterator(); 
 		while (itN.hasNext() && !foundNode) 
 		{
 			node_data nd = itN.next();
@@ -392,16 +387,10 @@ public class GameAlgorithms
 				edge_data currEdge=theEdgeOfTheFruit(currFruit, dg);
 				NodeData nodeSrcEdge= (NodeData) dg.getNode(currEdge.getSrc());
 				NodeData nodeDestEdge= (NodeData) dg.getNode(currEdge.getDest());
-				//				if (currFruit.getType()==1)
-				//				{
 				nodeSrcEdge.sethasFruit(1);
 				currRobot.setLocation(nodeSrcEdge.getLocation());
 				currRobot.setSrc(nodeSrcEdge.getKey());
 				currRobot.setDest(nodeDestEdge.getKey());
-				//				}
-				//				else// if type==-1
-				//				{
-				//				}
 			}
 			else
 			{
@@ -420,23 +409,17 @@ public class GameAlgorithms
 				flag=false;
 			}
 		}
-		//paintRobot(this.robotList);
 	}
 	public node_data theNodeOfTheRobot(Robot r,DGraph g) 
 	{
 		node_data nodeRobot = new NodeData();
 		Point3D pCurrRobot = r.getLocation();
-
-
 		boolean foundNode=false;
-
 		Iterator<node_data> itN = g.getV().iterator(); 
 		while (itN.hasNext() && !foundNode) 
 		{
 			node_data nd = itN.next();
-			//Point3D pNodeSrc = nd.getLocation(); // node src location
 			double dis= nd.getLocation().distance3D(pCurrRobot);
-
 			double eps=0.0000001;
 			if (dis<=eps)
 			{
@@ -444,7 +427,6 @@ public class GameAlgorithms
 				nodeRobot=nd;
 			}
 		}			
-
 		return nodeRobot;
 	}
 	public edge_data theEdgeOfTheFruit(Fruit f,DGraph g) 
@@ -458,7 +440,6 @@ public class GameAlgorithms
 		{
 			node_data nd = itN.next();
 			Point3D pNodeSrc = nd.getLocation(); // node src location
-			//scale(0, 0, 0, 0, 0);
 			Iterator<edge_data> itE = g.getE(nd.getKey()).iterator(); 
 			while (itE.hasNext() && !foundEdge) 
 			{
@@ -479,27 +460,65 @@ public class GameAlgorithms
 		return edgeFruit;
 	}
 
-	public  int bestNextNode (node_data srcNodeRobot)
-	{
-		double minDis=99999999;
-		double tempDis=0;
-		edge_data fruitEdge= new EdgeData();
+//	public List<edge_data> getListOfEdgeWithFruit() 
+//	{
+//        List<edge_data> edgeFruitList = new LinkedList<>();
+//        this.fruits = new FruitsList(this.gam);
+//        for (Fruits f : this.fruits.fruits) {
+//        	edgeFruitList.add(getEdge(f));
+//        }
+//        return edgeFruitList;
+//    }
+//	
+//	public  int bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
+//	{
+//		this.robotList= initRobots(this.game);
+//        Graph_Algo Ag = new Graph_Algo();
+//        Ag.init(dg);
+//        List<edge_data> edgeOfFruit= getListOfEdgeWithFruit();
+//        edge_data minDestEdge = new EdgeData();
+//        double min = Integer.MAX_VALUE;
+//        
+//        for (edge_data ed : edgeOfFruit) 
+//        {
+//            double temp = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
+//            if (temp< min) 
+//            {
+//                min = temp;
+//                minDestEdge = ed;
+//            }
+//        }
+//        List<node_data> shortestPathList = Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
+//        shortestPathList.add(dg.getNode(minDestEdge.getDest()));
+//        if (shortestPathList.size()>1) {
+//            if (currRobot.getLocation().equalsXY(dg.getNode(minDestEdge.getSrc()).getLocation())){
+//                this.game.chooseNextEdge(currRobot.getR_id(), minDestEdge.getDest());
+//            }
+//            else this.game.chooseNextEdge(currRobot.getR_id(), shortestPathList.get(1).getKey());
+//            this.game.move();
+//        }
+//    }
+//		
+		
+		
+//		double minDis=99999999;
+//		double tempDis=0;
+//		edge_data fruitEdge= new EdgeData();
+//
+//		for (int j=0; j<this.fruitList.size(); j++)
+//		{
+//			Fruit currFruit=this.fruitList.get(j);
+//			tempDis= srcNodeRobot.getLocation().distance3D(currFruit.getLocation());
+//			if (minDis>tempDis)
+//			{
+//				minDis=tempDis;
+//				fruitEdge= theEdgeOfTheFruit(currFruit, this.graph);
+//			}
+//		}
+//
+//		return this.graph.getNode(fruitEdge.getDest()).getKey();
 
 
-		for (int j=0; j<this.fruitList.size(); j++)
-		{
-			Fruit currFruit=this.fruitList.get(j);
-			tempDis= srcNodeRobot.getLocation().distance3D(currFruit.getLocation());
-			if (minDis>tempDis)
-			{
-				minDis=tempDis;
-				fruitEdge= theEdgeOfTheFruit(currFruit, this.graph);
-			}
-		}
-
-		return this.graph.getNode(fruitEdge.getDest()).getKey();
-
-	}
 
 
 
@@ -507,8 +526,8 @@ public class GameAlgorithms
 	{
 		double grad=0;
 
-		String robot_json = game.toString();
-		JSONObject lineRobot = new JSONObject(robot_json);
+		String gameString = game.toString();
+		JSONObject lineRobot = new JSONObject(gameString);
 		JSONObject currntRobot = lineRobot.getJSONObject("GameServer");
 		grad= currntRobot.getDouble("grade");
 

@@ -198,7 +198,6 @@ public class Graph_Algo implements graph_algorithms, Serializable
 						if (currNode.getWeight()+currEdge.getWeight() < this.myGraph.getNode(currEdge.getDest()).getWeight() )
 						{
 							this.myGraph.getNode(currEdge.getDest()).setWeight(currNode.getWeight()+currEdge.getWeight());//update w
-							System.out.println("the weight of the ed dest "+ this.myGraph.getNode(currEdge.getDest()).getWeight());
 							this.myGraph.getNode(currEdge.getDest()).setInfo(""+currNode.getKey());
 						}
 						if ((this.myGraph.getNode(currEdge.getDest())).getTag()==0)

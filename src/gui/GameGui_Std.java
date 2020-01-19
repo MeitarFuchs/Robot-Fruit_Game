@@ -1,5 +1,5 @@
 package gui;
-//???????????????????????
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -24,6 +24,7 @@ public class GameGui_Std
 		paintGame(g,fruitL);
 		paintRobots(robotL);
 	}
+	
 	public void drawGame(DGraph g,ArrayList<Fruit> fruitL) 
 	{
 		StdDraw.setCanvasSize(800,800);		
@@ -38,6 +39,20 @@ public class GameGui_Std
 		paintGame(g,fruitL);
 		paintRobots(robotL);
 	}
+	public void paintFruit(ArrayList<Fruit> fruitL) 
+	{
+		for (int i=0; i<fruitL.size(); i++)
+		{
+			Fruit currFruit= new Fruit();
+			currFruit=fruitL.get(i);
+			if (currFruit.getType()==1)//apple-red   1
+				StdDraw.setPenColor(Color.RED);
+			else
+				StdDraw.setPenColor(Color.YELLOW);//banana-yellow        1
+			StdDraw.filledCircle((currFruit.getLocation().x()) ,(currFruit.getLocation().y() ),0.00018);
+		}
+	}
+
 	public void paintRobots(ArrayList<Robot> robotL)
 	{
 		for (int i=0; i<robotL.size(); i++)
@@ -47,7 +62,6 @@ public class GameGui_Std
 			StdDraw.setPenColor(Color.ORANGE);     
 			StdDraw.picture(currRobot.getLocation().x(), currRobot.getLocation().y(),"bob.png",0.0027,0.0017);
 		}
-
 	}
 	public void paintGraph(DGraph g)
 	{
@@ -205,18 +219,5 @@ public class GameGui_Std
 
 
 	}
-	public void paintFruit(ArrayList<Fruit> fruitL) 
-	{
-		for (int i=0; i<fruitL.size(); i++)
-		{
-			Fruit currFruit= new Fruit();
-			currFruit=fruitL.get(i);
-			if (currFruit.getType()==1)//apple-red   1
-				StdDraw.setPenColor(Color.RED);
-			else
-				StdDraw.setPenColor(Color.YELLOW);//banana-yellow        1
-			StdDraw.filledCircle((currFruit.getLocation().x()) ,(currFruit.getLocation().y() ),0.00018);
-		}
-	}
-
+	
 }
