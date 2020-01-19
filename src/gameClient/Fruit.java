@@ -13,7 +13,7 @@ public class Fruit
 	private int type;
 	private double value;
 	private Point3D location;
-	
+
 	public int getType() {
 		return this.type;
 	}
@@ -29,56 +29,54 @@ public class Fruit
 	public void setValue(double value) {
 		this.value = value;
 	}
-	
+
 	public Point3D getLocation(){
 		return this.location;
 	}
-	
+
 	public void setLocation(Point3D location) {
 		this.location = location;
 	}
 
-	
-	
+
+
 	public Fruit() 
 	{
 		this.type=-1; // to check what is the deafult type
 		this.value=0;
 		this.location=null;
-		
+
 	}
-	
+
 	public Fruit(int type, double value, Point3D location) 
 	{
 		this.type=type;
 		this.value=value;
 		this.location=location;	
 	}
-	
-	public  ArrayList<Fruit>  initFromListSFruit(List <String> ls){
+
+	public  ArrayList<Fruit>  initFromListSFruit(List <String> listS)
+	{
 		ArrayList <Fruit> tempFruitList =new ArrayList<>();
-		for (String  s:ls) 
+		for (String  str : listS) 
 		{
-			tempFruitList.add(initFromline(s));
+			tempFruitList.add(initFromline(str));
 		}
 		return tempFruitList;
 	}
 
 
-	public  Fruit initFromline(String line) 
+	public Fruit initFromline(String line) 
 	{
 		Fruit currFruit=new Fruit();
 		try {
 			JSONObject obj = new JSONObject(line);
 			JSONObject fruit = obj.getJSONObject("Fruit");
-			int type;
-			double value;
-			String location_s;
-			Point3D location;
-			value = fruit.getDouble("value");
-			location_s = fruit.getString("pos");
-			location = new Point3D(location_s);
-			type = fruit.getInt("type");
+
+			int type = fruit.getInt("type");
+			double value = fruit.getDouble("value");
+			String locationStr = fruit.getString("pos");
+			Point3D location = new Point3D(locationStr);
 			currFruit = new Fruit( type,value, location);
 
 		} 
@@ -87,7 +85,5 @@ public class Fruit
 			E.printStackTrace();
 		}
 		return currFruit;
-
 	}
-
 }

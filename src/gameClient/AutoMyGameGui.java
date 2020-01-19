@@ -57,7 +57,6 @@ public class AutoMyGameGui extends Thread
 	private void moveRobotAuto() throws JSONException //move Robot Automaticly
 	{
 		List<String> log = this.gameAlgo.getGameService().move();
-		System.out.println(log);
 		if(log!=null) 
 		{
 			for(int i=0;i<log.size();i++) 
@@ -109,7 +108,6 @@ public class AutoMyGameGui extends Thread
 				sleep(10);
 			} 
 			catch (InterruptedException e) {e.printStackTrace();}
-			System.out.println("game info:"+ this.gameAlgo.getGameService().toString());
 		}
 		
 		try 
@@ -140,12 +138,12 @@ public class AutoMyGameGui extends Thread
 	/**
      * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
      */
-	public  ArrayList<Robot> initRobotsFromList(List <String> str) throws JSONException 
+	public  ArrayList<Robot> initRobotsFromList(List <String> strList) throws JSONException 
 	{
 		ArrayList<Robot> robotList = new ArrayList<>();
-		for (String s:str) 
+		for (String str:strList) 
 		{
-			robotList.add(initLine(s));
+			robotList.add(initLine(str));
 		}
 		return robotList;
 	}
@@ -161,10 +159,11 @@ public class AutoMyGameGui extends Thread
 		int dest = array_robots.getInt("dest");
 		double value =array_robots.getInt("value");
 		double speed =array_robots.getInt("speed");
-		String ps =array_robots.getString("pos");
-		Point3D p = new Point3D(ps);
-		Robot r= new Robot(id, src, dest, p, value, speed);
-		return r;
+		String pointStr =array_robots.getString("pos");
+		Point3D currPoint = new Point3D(pointStr);
+		
+		Robot currRobot= new Robot(id,src,dest,currPoint,value,speed);
+		return currRobot;
 	}
 	
 }

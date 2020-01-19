@@ -107,36 +107,37 @@ public class Robot
 		String ans="id: "+this.r_id+" src:  "+this.src+" dest:  "+this.dest+" LOC:  "+this.location+" value:  "+this.value+" speed:  "+this.speed;
 		return ans ;
 	}
-	public static int howManyRobot(String s) throws JSONException {
-		JSONObject obj = new JSONObject(s);
-		JSONObject robots = obj.getJSONObject("GameServer");
-		int num = robots.getInt("robots");
-		return num;
+	public static int howManyRobot(String s) throws JSONException 
+	{
+		JSONObject robotSInfo = new JSONObject(s);
+		JSONObject robots = robotSInfo.getJSONObject("GameServer");
+		int numOfRobots = robots.getInt("robots");
+		return numOfRobots;
 	}
 
-	public static List<Robot> initFromList(List <String> str) throws JSONException 
+	public static List<Robot> initFromList(List <String> strList) throws JSONException 
 	{
 		List <Robot> robotList = new LinkedList<>();
-		for (String s:str) 
+		for (String str:strList) 
 		{
-			robotList.add(initLine(s));
+			robotList.add(initLine(str));
 		}
 		return robotList;
 	}
 
 	public static  Robot initLine(String lineJson) throws JSONException 
 	{
-		JSONObject obj = new JSONObject(lineJson);
-		JSONObject array_robots = obj.getJSONObject("Robot");
-		int id = array_robots.getInt("id");
-		int src =array_robots.getInt("src");
-		int dest = array_robots.getInt("dest");
-		double value =array_robots.getInt("value");
-		double speed =array_robots.getInt("speed");
-		String ps =array_robots.getString("pos");
-		Point3D p = new Point3D(ps);
-		Robot r= new Robot(id, src, dest, p, value, speed);
+		JSONObject objline = new JSONObject(lineJson);
+		JSONObject currRobotStr = objline.getJSONObject("Robot");
+		int id= currRobotStr.getInt("id");
+		int src=currRobotStr.getInt("src");
+		int dest= currRobotStr.getInt("dest");
+		double value=currRobotStr.getInt("value");
+		double speed=currRobotStr.getInt("speed");
+		String pointString=currRobotStr.getString("pos");
+		Point3D point = new Point3D(pointString);
+		Robot currRobot= new Robot(id, src,dest,point, value, speed);
 
-		return r;
+		return currRobot;
 	}
 }

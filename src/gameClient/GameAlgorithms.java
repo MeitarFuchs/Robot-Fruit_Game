@@ -99,7 +99,6 @@ public class GameAlgorithms
 					double zP= Double.parseDouble(arrPoint[2]);
 					Point3D cuurntPoint = new Point3D(xP,yP,zP);
 
-					//System.out.println("type:  "+type+" value:  "+value+ "  cuurntPoint:  "+cuurntPoint);
 					Fruit newFruit = new Fruit(type ,value ,cuurntPoint); //create the new fruit
 					this.fruitList.add(i, newFruit); //add to the this list
 
@@ -112,8 +111,6 @@ public class GameAlgorithms
 
 			}
 		}
-
-		//System.out.println("finish build fruit list and the size is:  "+this.fruitList.size());
 	}
 	public ArrayList<Fruit> initFruit(game_service game) 
 	{
@@ -139,7 +136,6 @@ public class GameAlgorithms
 					double zP= Double.parseDouble(arrPoint[2]);
 					Point3D cuurntPoint = new Point3D(xP,yP,zP);
 
-					//System.out.println("type:  "+type+" value:  "+value+ "  cuurntPoint:  "+cuurntPoint);
 					Fruit newFruit = new Fruit(type ,value ,cuurntPoint); //create the new fruit
 					newfruitList.add(i, newFruit); //add to the this list
 
@@ -153,7 +149,6 @@ public class GameAlgorithms
 			}
 		}
 		return newfruitList;
-		//System.out.println("finish build fruit list and the size is:  "+this.fruitList.size());
 	}
 	public ArrayList<Robot> initRobots(game_service game) 
 	{
@@ -190,7 +185,6 @@ public class GameAlgorithms
 			}
 		}
 		return newRobotList;
-		//System.out.println("finish build fruit list and the size is:  "+this.fruitList.size());
 	}
 	public int howManyRobots(game_service game) throws JSONException
 	{
@@ -207,26 +201,20 @@ public class GameAlgorithms
 	{	
 		this.robotList=new ArrayList<Robot>();
 		int sizeRobots=howManyRobots(game);
-		System.out.println("sizerobots: "+sizeRobots);
 		for(int i=0; i<sizeRobots; i++)
 		{
 			Robot newRobot = new Robot(i ,0 ,0); //create the new robot
-			System.out.println("newRobot:  "+newRobot.toString());
 			this.robotList.add(i,newRobot); //add to the this list	
 		}
 
 		startLocationRobot(dg);
 
 		List<String> log = game.getRobots();
-		System.out.println("log size:  "+log.size());
 
-		System.out.println("Robottttttttttttttt:  "+game.getRobots());
 		if(log!=null) 
 		{
-			System.out.println("in to log");
 			for(int i=0;i<log.size();i++) 
 			{
-				System.out.println("in to for");
 				String robot_json = log.get(i);
 				try 
 				{
@@ -245,11 +233,8 @@ public class GameAlgorithms
 					double zP= Double.parseDouble(arrPoint[2]);
 					Point3D cuurntPoint = new Point3D(xP,yP,zP);
 
-					System.out.println("id:  "+id+" value:  "+value+ "  cuurntPoint:  "+cuurntPoint);
 					Robot newRobot = new Robot(id, src, dest, cuurntPoint, value, speed); //create the new fruit
-					System.out.println("newRobot:  "+newRobot.toString());
 					boolean b=this.robotList.add(newRobot); //add to the this list
-					System.out.println("b:  "+b);
 
 				} 
 				catch (JSONException e) 
@@ -262,12 +247,8 @@ public class GameAlgorithms
 
 		for(int i=0; i<sizeRobots; i++)
 		{
-			System.out.println("this.robotList.get(i):  "+this.robotList.get(i));
-			System.out.println("this.robotList.get(i).getSrc():  "+this.robotList.get(i).getSrc());
 			game.addRobot(this.robotList.get(i).getSrc());
-
-			System.out.println("robotList:  "+this.robotList.get(i).toString());
-		}
+	}
 
 
 	}
@@ -311,8 +292,6 @@ public class GameAlgorithms
 		while (itN.hasNext()) 
 		{
 			node_data currNode = itN.next();
-			System.out.println("robot.getLocation()"+robot.getLocation());
-			System.out.println("currNode.getLocation()"+currNode.getLocation());
 			double dis= currNode.getLocation().distance3D(robot.getLocation());
 			double eps=0.0000001;
 			if (dis<=eps)

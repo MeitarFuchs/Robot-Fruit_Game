@@ -32,19 +32,17 @@ public class MyGameGUI extends Thread
 	private node_data nodeClick;
 
 	/**
-     *Default constructor.(start the game)
-     */
+	 *Default constructor.(start the game)
+	 */
 	public MyGameGUI() throws JSONException 
 	{		
-		String[] choiceNumLevel = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+		String[] choiceNumLevel = {"level 0","level 1","level 2","level 3","level 4","level 5","level 6","level 7","level 8","level 9","level 10","level 11","level 12","level 13","level 14","level 15","level 16","level 17","level 18","level 19","level 20","level 21","level 22","level 23"};
 		Object selectedNumLevel = JOptionPane.showInputDialog(null, "Choosenum of game", "Message", JOptionPane.INFORMATION_MESSAGE, null, choiceNumLevel, choiceNumLevel[0]);
 		int level= Integer.parseInt((String) selectedNumLevel);
-
 		this.gameAlgo.setGameService(Game_Server.getServer(level));		
 
 		String[] chooseTypeGame = {"Automatic game","Manual game"};
 		Object typeSelectedGame = JOptionPane.showInputDialog(null, "Choose game mode", "Message", JOptionPane.INFORMATION_MESSAGE, null, chooseTypeGame, chooseTypeGame[0]);
-
 		StdDraw.gameGui= this;
 
 		StdDraw.clear();
@@ -54,148 +52,101 @@ public class MyGameGUI extends Thread
 			this.automatic=true;
 			AutoMyGameGui autoGame=new AutoMyGameGui(this.gameAlgo.getGameService());
 
-//			String stringGraph= gameAlgo.getGameService().getGraph(); 
-//			DGraph Dg= new DGraph();
-//			Dg.init(stringGraph);
-//			this.gameAlgo.setGraph(Dg);
-//			this.gameAlgo = new GameAlgorithms(this.gameAlgo.getGameService());
-//
-//			gameAlgo.buildFruitList(gameAlgo.getGameService());
-//			try {gameAlgo.buildRobotList(gameAlgo.getGameService(),Dg);} catch (JSONException e) {e.printStackTrace();}
-//
-//			this.gameAlgo.setGraph(Dg);
-//
-//			GuiStd.drawGame(this.gameAlgo.getGraph(), this.gameAlgo.getFruitList(), this.gameAlgo.getRobotList());
-//			StdDraw.show();
-//
-//			this.gameAlgo.getGameService().startGame();
-		//this.start();
 		}
-		else if (typeSelectedGame=="Manual game")
-		{
-			this.manual=true;
-			String stringGraph= gameAlgo.getGameService().getGraph(); 
-			DGraph Dg= new DGraph();
-			Dg.init(stringGraph);
-			this.gameAlgo.setGraph(Dg);
-			gameAlgo.buildFruitList(gameAlgo.getGameService());
-			GuiStd.drawGame(Dg, this.gameAlgo.getFruitList());
-			StdDraw.show();
-
-			numRobots= gameAlgo.howManyRobots(gameAlgo.getGameService());
-			JOptionPane.showMessageDialog(null, "you need to put "+numRobots+" robots.");
-			System.out.println("game info:"+ this.gameAlgo.getGameService().toString());
-
-			//add the robots in their first location that the user chose
-			int count=0;
-			while (count<numRobots)
+		else 
+			if (typeSelectedGame=="Manual game")
 			{
-				Object keyNodeSelected= JOptionPane.showInputDialog("choose number node");
-				int keyNode=Integer.parseInt((String) keyNodeSelected);
-				System.out.println("keyNode"+keyNode);
-				node_data ansNode = new NodeData();
-				Iterator<node_data> it =Dg.getV().iterator();
-				while (it.hasNext())
-				{
-					node_data nd = (node_data) it.next();
-					if (nd.getKey()==keyNode)
-					{
-						ansNode=nd;
-					}
-				}
-				Robot currRobot= new Robot(keyNode,ansNode.getLocation());
-				System.out.println("current robot is:  "+ currRobot.getR_id());
-				if (count==0)
-				{
-					this.gameAlgo.clearRobotList();
-				}
-				this.gameAlgo.getRobotList().add(count,currRobot);// add to my list
-				this.gameAlgo.getGameService().addRobot(keyNode);//add in the server
-				this.GuiStd.paintRobots(this.gameAlgo.getRobotList());
-				count++;
-			}
-			////////////// end to add the robots in their first location
+				this.manual=true;
+				String stringGraph= gameAlgo.getGameService().getGraph(); 
+				DGraph Dg= new DGraph();
+				Dg.init(stringGraph);
+				this.gameAlgo.setGraph(Dg);
+				gameAlgo.buildFruitList(gameAlgo.getGameService());
+				GuiStd.drawGame(Dg, this.gameAlgo.getFruitList());
+				StdDraw.show();
 
-			this.gameAlgo.getGameService().startGame();
-			this.start();
-		}
+				numRobots= gameAlgo.howManyRobots(gameAlgo.getGameService());
+				JOptionPane.showMessageDialog(null, "you need to put "+numRobots+" robots.");
+
+				//add the robots in their first location that the user choosed
+				int count=0;
+				while (count<numRobots)
+				{
+					Object keyNodeSelected= JOptionPane.showInputDialog("choose number node");
+					int keyNode=Integer.parseInt((String) keyNodeSelected);
+					node_data ansNode = new NodeData();
+					Iterator<node_data> it =Dg.getV().iterator();
+					while (it.hasNext())
+					{
+						node_data nd = (node_data) it.next();
+						if (nd.getKey()==keyNode)
+						{
+							ansNode=nd;
+						}
+					}
+					Robot currRobot= new Robot(keyNode,ansNode.getLocation());
+					if (count==0)
+					{
+						this.gameAlgo.clearRobotList();
+					}
+					this.gameAlgo.getRobotList().add(count,currRobot);// add to our list
+					this.gameAlgo.getGameService().addRobot(keyNode);//add in the server
+					this.GuiStd.paintRobots(this.gameAlgo.getRobotList());
+					count++;
+				}
+				////////////// end to add the robots in their first location
+
+				this.gameAlgo.getGameService().startGame();
+				this.start();
+			}
 	}
 
-	
-//	/**
-//     * This function move the robot to his destanetion.
-//     */
-//	private void moveRobotAuto() throws JSONException //move Robot Automaticly
-//	{
-//		List<String> log = this.gameAlgo.getGameService().move();
-//		System.out.println(log);
-//		if(log!=null) 
-//		{
-//			for(int i=0;i<log.size();i++) 
-//			{
-//				String robot_json = log.get(i);
-//				try 
-//				{
-//					JSONObject line = new JSONObject(robot_json);
-//					JSONObject ttt = line.getJSONObject("Robot");
-//					int rid = ttt.getInt("id");
-//					int src = ttt.getInt("src");
-//					int dest = ttt.getInt("dest");
-//
-//					if(dest==-1) 
-//					{	
-//						dest = this.gameAlgo.nextNode(this.gameAlgo.getGraph(),src);
-//						this.gameAlgo.getGameService().chooseNextEdge(rid, dest);
-//					}
-//				}
-//				catch (JSONException e) {e.printStackTrace();}
-//			}
-//		}
-//	}
-	
 	/**
-     * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
-     */
-	public  ArrayList<Robot> initRobotsFromList(List <String> str) throws JSONException 
+	 * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
+	 */
+	public  ArrayList<Robot> initRobotsFromList(List <String> strList) throws JSONException 
 	{
 		ArrayList<Robot> robotList = new ArrayList<>();
-		for (String s:str) 
+		for (String str:strList) 
 		{
-			robotList.add(initLine(s));
+			robotList.add(initLine(str));
 		}
 		return robotList;
 	}
+	
 	/**
-     * This function adding the currnt robot string from the service to the list of all the exist robots in Our game.
-     */
+	 * This function adding the currnt robot string from the service to the list of all the exist robots in Our game.
+	 */
 	public  Robot initLine(String lineJson) throws JSONException 
 	{
-		JSONObject obj = new JSONObject(lineJson);
-		JSONObject array_robots = obj.getJSONObject("Robot");
-		int id = array_robots.getInt("id");
-		int src =array_robots.getInt("src");
-		int dest = array_robots.getInt("dest");
-		double value =array_robots.getInt("value");
-		double speed =array_robots.getInt("speed");
-		String ps =array_robots.getString("pos");
-		Point3D p = new Point3D(ps);
-		Robot r= new Robot(id, src, dest, p, value, speed);
-		return r;
+		JSONObject objLine = new JSONObject(lineJson);
+		JSONObject currRobotString = objLine.getJSONObject("Robot");
+		int id = currRobotString.getInt("id");
+		int src =currRobotString.getInt("src");
+		int dest = currRobotString.getInt("dest");
+		double value =currRobotString.getInt("value");
+		double speed =currRobotString.getInt("speed");
+		String pointStr =currRobotString.getString("pos");
+		Point3D currPoint = new Point3D(pointStr);
+		
+		Robot currRobot= new Robot(id, src, dest, currPoint, value, speed);
+		return currRobot;
 	}
+	
 	/**
-     *This function check the clicks and sets the new location of the robot in the manual game mode.
-     */
+	 *This function check the clicks and sets the new location of the robot in the manual game mode.
+	 */
 	public void Clicks() 
 	{
 		JFrame massegeJF = new JFrame();
-		double x,y;
+		double xClick=0;
+		double yClick=0;
 		if (!this.clickRobot) 
 		{
-			x = StdDraw.mouseX();
-			y = StdDraw.mouseY();
-			Point3D mouseClickPoint= new Point3D(x, y);
+			xClick= StdDraw.mouseX();
+			yClick= StdDraw.mouseY();
+			Point3D mouseClickPoint= new Point3D(xClick,yClick);
 			Robot currRobot = this.gameAlgo.robotYouCloseTo(this.gameAlgo.getRobotList(),mouseClickPoint);
-
 			if (currRobot!= null) 
 			{
 				this.robotT=currRobot;
@@ -203,28 +154,29 @@ public class MyGameGUI extends Thread
 			} 
 			else 
 			{
-				JOptionPane.showMessageDialog(massegeJF, "Try again");
+				JOptionPane.showMessageDialog(massegeJF, "Pleas try again");
 			}
 		}
 		else // when you alredy choose robot and now choose dest
 		{
 			boolean foundLegalEdge=false;
-			x = StdDraw.mouseX();
-			y = StdDraw.mouseY();
-			Point3D mouseClickPoint= new Point3D(x, y);
+			xClick = StdDraw.mouseX();
+			yClick = StdDraw.mouseY();
+			Point3D mouseClickPoint= new Point3D(xClick, yClick);
 
-			node_data ndDest = this.gameAlgo.nodeYouCloseTo(this.gameAlgo.getGraph(),mouseClickPoint);
+			node_data nodeDest = this.gameAlgo.nodeYouCloseTo(this.gameAlgo.getGraph(),mouseClickPoint);
 			if (this.robotT!= null)
 			{
-				Iterator<edge_data> itE = this.gameAlgo.getGraph().getE( this.robotT.getSrc()).iterator(); 
-				while (itE.hasNext() && !foundLegalEdge) 
+				Iterator<edge_data> itEdge = this.gameAlgo.getGraph().getE( this.robotT.getSrc()).iterator(); 
+				while (itEdge.hasNext() && !foundLegalEdge) 
 				{
-					edge_data currEdge = itE.next();
+					edge_data currEdge = itEdge.next();
 					this.nodeClick= this.gameAlgo.getGraph().getNode(currEdge.getDest());
-					if (ndDest.getKey()==currEdge.getDest())
+					if (nodeDest.getKey()==currEdge.getDest())
 					{						
-						this.gameAlgo.getGameService().chooseNextEdge(this.robotT.getR_id(), ndDest.getKey());
+						this.gameAlgo.getGameService().chooseNextEdge(this.robotT.getR_id(), nodeDest.getKey());
 						this.gameAlgo.getGameService().move();
+						
 						foundLegalEdge=true;
 					}
 				}
@@ -234,7 +186,6 @@ public class MyGameGUI extends Thread
 				JOptionPane.showMessageDialog(massegeJF, "Try again");
 			}
 
-
 			if (foundLegalEdge)
 				this.clickRobot = false;
 			else 
@@ -243,10 +194,10 @@ public class MyGameGUI extends Thread
 			}
 		}
 	}
-	
-	 /**
-     * This function move the robot to his destenation.
-     */
+
+	/**
+	 * This function move the robot to his destenation.
+	 */
 	public void moveRobotByClick() throws JSONException
 	{
 		List<String> log = this.gameAlgo.getGameService().move();
@@ -255,23 +206,25 @@ public class MyGameGUI extends Thread
 			this.gameAlgo.setRobotList(initRobotsFromList(log));
 			for (int i=0; i<this.gameAlgo.getRobotList().size(); i++)
 			{
-				Robot cuurR= this.gameAlgo.getRobotList().get(i);
-				if (cuurR.getDest()==-1)
+				Robot cuurRobot= this.gameAlgo.getRobotList().get(i);
+				if (cuurRobot.getDest()==-1)
 				{
 					this.gameAlgo.getGameService().move();
 				}
 			}
 		}
 	}
+	
 	/**
-     * The RunFunction of the this thread
-     */
+	 * The RunFunction of the this thread
+	 */
 	public void run() 
 	{
 		while(this.gameAlgo.getGameService().isRunning())
 		{
 			this.gameAlgo.setRobotList(this.gameAlgo.initRobots(this.gameAlgo.getGameService()));
 			this.gameAlgo.setFruitList(this.gameAlgo.initFruit(this.gameAlgo.getGameService()));
+			
 			if (this.manual)
 			{// this.manual==true
 				try 
@@ -291,9 +244,8 @@ public class MyGameGUI extends Thread
 				sleep(10);
 			} 
 			catch (InterruptedException e) {e.printStackTrace();}
-			System.out.println("game info:"+ this.gameAlgo.getGameService().toString());
 		}
-		
+
 		try 
 		{
 			sleep(1000);
@@ -310,7 +262,6 @@ public class MyGameGUI extends Thread
 			try 
 			{
 				JOptionPane.showMessageDialog(massegeJF, "Game Over - Grade:"+this.gameAlgo.getGradGame());
-
 			} 
 			catch (JSONException e) 
 			{
