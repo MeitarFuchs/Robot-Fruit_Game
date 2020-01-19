@@ -31,7 +31,6 @@ public class MyGameGUI extends Thread
 	private boolean manual=false;
 	private node_data nodeClick;
 
-	
 	/**
      *Default constructor.(start the game)
      */

@@ -45,6 +45,11 @@ public class GameGui_Std
 		{
 			Fruit currFruit= new Fruit();
 			currFruit=fruitL.get(i);
+//			if (currFruit.getType()==1)//apple-red   1
+//				
+//			StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"apple.jpeg",0.00007,0.00007);
+//			else//banana-yellow 
+//				StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"banana.jpg",0.0017,0.0017);
 			if (currFruit.getType()==1)//apple-red   1
 				StdDraw.setPenColor(Color.RED);
 			else
