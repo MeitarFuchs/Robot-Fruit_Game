@@ -2,7 +2,7 @@ package utils;
 
 //package stdDraw;
 // https://introcs.cs.princeton.edu/java/stdlib/StdDraw.java.html
-/******************************************************************************
+/**************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
  *  Dependencies: none
@@ -25,7 +25,7 @@ package utils;
  *    -  don't use AffineTransform for rescaling since it inverts
  *       images and strings
  *
- ******************************************************************************/
+ **************************/
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -79,12 +79,13 @@ import dataStructure.DGraph;
 import dataStructure.NodeData;
 import dataStructure.graph;
 import dataStructure.node_data;
+import gameClient.AutoMyGameGui;
 import gameClient.MyGameGUI;
 
 
 public class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 	  public static MyGameGUI gameGui;
-	  
+	  public static AutoMyGameGui gameAuto;
 	  
 	  
 	  
@@ -337,9 +338,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 
-	/***************************************************************************
+	/*************************
 	 *  User and screen coordinate systems.
-	 ***************************************************************************/
+	 *************************/
 
 	/**
 	 * Sets the <em>x</em>-scale to be the default (between 0.0 and 1.0).
@@ -556,9 +557,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 
-	/***************************************************************************
+	/*************************
 	 *  Drawing geometric shapes.
-	 ***************************************************************************/
+	 *************************/
 
 	/**
 	 * Draws a line segment between (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>) and
@@ -860,9 +861,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 
-	/***************************************************************************
+	/*************************
 	 *  Drawing images.
-	 ***************************************************************************/
+	 *************************/
 	// get an image from the given filename
 	private static Image getImage(String filename) {
 		if (filename == null) throw new IllegalArgumentException();
@@ -898,13 +899,13 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		return icon.getImage();
 	}
 
-	/***************************************************************************
+	/*************************
 	 * [Summer 2016] Should we update to use ImageIO instead of ImageIcon()?
 	 *               Seems to have some issues loading images on some systems
 	 *               and slows things down on other systems.
 	 *               especially if you don't call ImageIO.setUseCache(false)
 	 *               One advantage is that it returns a BufferedImage.
-	 ***************************************************************************/
+	 *************************/
 	/*
     private static BufferedImage getImage(String filename) {
         if (filename == null) throw new IllegalArgumentException();
@@ -1068,9 +1069,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		draw();
 	}
 
-	/***************************************************************************
+	/*************************
 	 *  Drawing text.
-	 ***************************************************************************/
+	 *************************/
 
 	/**
 	 * Write the given text string in the current font, centered at (<em>x</em>, <em>y</em>).
@@ -1208,9 +1209,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 
-	/***************************************************************************
+	/*************************
 	 *  Save drawing to a file.
-	 ***************************************************************************/
+	 *************************/
 
 	/**
 	 * Saves the drawing to using the specified filename.
@@ -1274,9 +1275,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 
-	/***************************************************************************
+	/*************************
 	 *  Mouse interactions.
-	 ***************************************************************************/
+	 *************************/
 
 	/**
 	 * Returns true if the mouse is being pressed.
@@ -1398,9 +1399,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	}
 
 
-	/***************************************************************************
+	/*************************
 	 *  Keyboard interactions.
-	 ***************************************************************************/
+	 *************************/
 
 	/**
 	 * Returns true if the user has typed a key (that has not yet been processed).

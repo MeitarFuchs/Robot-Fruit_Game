@@ -21,7 +21,6 @@ public class GameGui_Std
 
 	public void repaintGame(DGraph g ,ArrayList<Fruit> fruitL,ArrayList<Robot> robotL)
 	{
-		Sys;
 		paintGame(g,fruitL);
 		paintRobots(robotL);
 	}

@@ -22,7 +22,6 @@ public class GameAlgorithms
 	private ArrayList<Fruit> fruitList = new ArrayList<Fruit>(); 
 	private ArrayList<Robot> robotList ;//= new ArrayList<Robot>()
 
-
 	public GameAlgorithms() 
 	{
 		graph=null;
