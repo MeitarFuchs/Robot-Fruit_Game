@@ -1,5 +1,11 @@
 package gameClient;
-
+/**
+ * this class represent the robot of the game for the automate  and the manual game.
+ * the robot is consists few variables , he have id , source(where is it now) ,destination(where he need to go ),
+ * value , speed , location.
+ * there is also getters , setters and tostring
+ * there is init who build the robot from the information of the json and a function who found the number of robot there is on the level the user want.
+ */
 import java.util.LinkedList;
 import java.util.List;
 
@@ -107,16 +113,28 @@ public class Robot
 		String ans="id: "+this.r_id+" src:  "+this.src+" dest:  "+this.dest+" LOC:  "+this.location+" value:  "+this.value+" speed:  "+this.speed;
 		return ans ;
 	}
-	public static int howManyRobot(String s) throws JSONException 
-	{
-		JSONObject robotSInfo = new JSONObject(s);
-		JSONObject robots = robotSInfo.getJSONObject("GameServer");
-		int numOfRobots = robots.getInt("robots");
-		return numOfRobots;
-	}
-
+//	/**
+//	 * this method check how many robot we have in the string of the level she get
+//	 * @param s the string of the level
+//	 * @return the number of robots
+//	 * @throws JSONException
+//	 */
+//	public static int howManyRobot(String s) throws JSONException 
+//	{
+//		JSONObject robotSInfo = new JSONObject(s);
+//		JSONObject robots = robotSInfo.getJSONObject("GameServer");
+//		int numOfRobots = robots.getInt("robots");
+//		return numOfRobots;
+//	}
+	/**
+	 * this method build a list of robot that we have in the game with the llist she get
+	 * @param strList a list of string of robots
+	 * @return a list of robot
+	 * @throws JSONException
+	 */
 	public static List<Robot> initFromList(List <String> strList) throws JSONException 
 	{
+
 		List <Robot> robotList = new LinkedList<>();
 		for (String str:strList) 
 		{
@@ -124,7 +142,12 @@ public class Robot
 		}
 		return robotList;
 	}
-
+	/**
+	 * this method build the robots (with the constructor) that she get in the string
+	 * @param lineJson the string of the robot
+	 * @return the robot she build
+	 * @throws JSONException
+	 */
 	public static  Robot initLine(String lineJson) throws JSONException 
 	{
 		JSONObject objline = new JSONObject(lineJson);

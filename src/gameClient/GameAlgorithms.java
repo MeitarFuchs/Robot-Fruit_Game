@@ -1,5 +1,13 @@
 package gameClient;
-
+/**
+ * In this class we have constructor who start the game, getters and setters 
+ * The class represent some algorithms for the game. 
+ * We have here init for the robot and the fruit to build their lists.
+ * their is also function to know how many robot we have in the level we chose. 
+ * A function who chose the next node for the robot ramdomaly,
+ * and function who help us to know where we have fruit  and where to put the robot at the beginning of the game
+ * their is also algorithms who found in which node the robot is and a function who return the grade at the end .
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -65,7 +73,9 @@ public class GameAlgorithms
 	{
 		return this.robotList;
 	}
-
+	/**
+	 * clear the robot list , create a new robot list who is empty
+	 */
 	public void clearRobotList()
 	{
 		this.robotList=new ArrayList<Robot> ();
@@ -74,7 +84,10 @@ public class GameAlgorithms
 	{
 		return this.fruitList;
 	}
-
+	/**
+	 * this method get a game , took the fruit from there and build each fruit to add it to the fruit list
+	 * @param game the game she get
+	 */
 	public void buildFruitList(game_service game) 
 	{
 		this.fruitList=new ArrayList<Fruit>();
@@ -112,6 +125,11 @@ public class GameAlgorithms
 			}
 		}
 	}
+	/**
+	 * this method get a game , took the fruit from there and build each fruit to add it to the fruit list and return that list
+	 * @param game the game she get
+	 * @return the fruit list she build
+	 */
 	public ArrayList<Fruit> initFruit(game_service game) 
 	{
 		ArrayList<Fruit> newfruitList=new ArrayList<Fruit>();
@@ -150,6 +168,11 @@ public class GameAlgorithms
 		}
 		return newfruitList;
 	}
+	/**
+	 * this method get a game , took the robot from there and build each robot to add it to the robot list and return that list
+	 * @param game the game she get
+	 * @return the robot list she build
+	 */
 	public ArrayList<Robot> initRobots(game_service game) 
 	{
 		ArrayList<Robot> newRobotList=new ArrayList<Robot>();
@@ -186,6 +209,12 @@ public class GameAlgorithms
 		}
 		return newRobotList;
 	}
+	/**
+	 * this method check how many robot we have in the string of the level she get
+	 * @param s the string of the level
+	 * @return the number of robots
+	 * @throws JSONException
+	 */
 	public int howManyRobots(game_service game) throws JSONException
 	{
 
@@ -196,7 +225,12 @@ public class GameAlgorithms
 		return sizeRobots;
 	}
 
-
+	/**
+	 * this method build the robot list with all  the robot and put them in here start location (use another method) in the graph
+	 * @param game the game 
+	 * @param dg the graph
+	 * @throws JSONException
+	 */
 	public void buildRobotList(game_service game, DGraph dg) throws JSONException 
 	{	
 		this.robotList=new ArrayList<Robot>();
@@ -248,7 +282,7 @@ public class GameAlgorithms
 		for(int i=0; i<sizeRobots; i++)
 		{
 			game.addRobot(this.robotList.get(i).getSrc());
-	}
+		}
 
 
 	}
@@ -259,19 +293,24 @@ public class GameAlgorithms
 	public void setRobotList(ArrayList<Robot> list) {
 		this.robotList =  list;
 	}
-//	public void buildRobotListString(List<String> temp)  throws JSONException 
-//	{	
-//
-//		ArrayList<Robot> tempR = new ArrayList<Robot>();
-//		for (String stringR : temp) 
-//		{
-//			Robot currRobot = new Robot();
-//			currRobot = (Robot) currRobot.initLine(stringR);
-//			tempR.add(currRobot);
-//		}
-//		this.robotList = tempR;
-//	}
-
+	//	public void buildRobotListString(List<String> temp)  throws JSONException 
+	//	{	
+	//
+	//		ArrayList<Robot> tempR = new ArrayList<Robot>();
+	//		for (String stringR : temp) 
+	//		{
+	//			Robot currRobot = new Robot();
+	//			currRobot = (Robot) currRobot.initLine(stringR);
+	//			tempR.add(currRobot);
+	//		}
+	//		this.robotList = tempR;
+	//	}
+/**
+ * chose randomly the next node the robot will go
+ * @param g the graph of the game
+ * @param src the key of the node the robot is in
+ * @return the key of the node the robot need to go
+ */
 	public  int nextNode(DGraph g, int src) 
 	{
 
@@ -285,7 +324,11 @@ public class GameAlgorithms
 		ans = itr.next().getDest();
 		return ans;
 	}
-
+/**
+ * this method check in which node the robot is in
+ * @param robot the robot
+ * @return the node the the robot is in
+ */
 	public node_data theNodeRobot(Robot robot) // if not close to any robot - return null
 	{
 		Iterator<node_data> itN = this.graph.getV().iterator(); 
@@ -302,6 +345,12 @@ public class GameAlgorithms
 		return null;
 
 	}
+/**
+ * this method check next to which robot the mouse click was
+ * @param listRo list of robots
+ * @param clickPoint the location of the mouse click
+ * @return the robot that the click was next to him
+ */
 	public Robot robotYouCloseTo(ArrayList<Robot> listRo,Point3D clickPoint) // if not close to any robot - return null
 	{
 		double min=999999999;
@@ -325,8 +374,14 @@ public class GameAlgorithms
 
 		return null;
 	}
-
-	public node_data nodeYouCloseTo(DGraph dg ,Point3D clickPoint) // if not close to any node - return null
+/**
+ * this method check next to which node the mouse was , in the graph she have
+ * @param dg the graph
+ * @param clickPoint the location of the mouse click
+ * @return the node that the click was closed to ,
+ * if not close to any node - return nullif not close to any node - return null
+ */
+	public node_data nodeYouCloseTo(DGraph dg ,Point3D clickPoint) 
 	{
 		boolean foundNode=false;
 		double min=Integer.MAX_VALUE;
@@ -350,7 +405,10 @@ public class GameAlgorithms
 
 		return null;
 	}
-
+/**
+ * check for each robot what it the better place for him to start the game
+ * @param dg the graph of the game
+ */
 	public  void startLocationRobot(DGraph dg)
 	{
 		boolean flag=false;
@@ -388,6 +446,12 @@ public class GameAlgorithms
 			}
 		}
 	}
+	/**
+	 * check in which node the robot is in
+	 * @param r the robot
+	 * @param g the graph
+	 * @return the node that the robot is in
+	 */
 	public node_data theNodeOfTheRobot(Robot r,DGraph g) 
 	{
 		node_data nodeRobot = new NodeData();
@@ -407,6 +471,12 @@ public class GameAlgorithms
 		}			
 		return nodeRobot;
 	}
+	/**
+	 * get a fruit and check in which edge the fruit is in, in the graph
+	 * @param f the fruit
+	 * @param g the graph of the game
+	 * @return the edge of the fruit
+	 */
 	public edge_data theEdgeOfTheFruit(Fruit f,DGraph g) 
 	{
 		edge_data edgeFruit = new EdgeData(); // edgeFruit=null
@@ -438,68 +508,72 @@ public class GameAlgorithms
 		return edgeFruit;
 	}
 
-//	public List<edge_data> getListOfEdgeWithFruit() 
-//	{
-//        List<edge_data> edgeFruitList = new LinkedList<>();
-//        this.fruits = new FruitsList(this.gam);
-//        for (Fruits f : this.fruits.fruits) {
-//        	edgeFruitList.add(getEdge(f));
-//        }
-//        return edgeFruitList;
-//    }
-//	
-//	public  int bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
-//	{
-//		this.robotList= initRobots(this.game);
-//        Graph_Algo Ag = new Graph_Algo();
-//        Ag.init(dg);
-//        List<edge_data> edgeOfFruit= getListOfEdgeWithFruit();
-//        edge_data minDestEdge = new EdgeData();
-//        double min = Integer.MAX_VALUE;
-//        
-//        for (edge_data ed : edgeOfFruit) 
-//        {
-//            double temp = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
-//            if (temp< min) 
-//            {
-//                min = temp;
-//                minDestEdge = ed;
-//            }
-//        }
-//        List<node_data> shortestPathList = Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
-//        shortestPathList.add(dg.getNode(minDestEdge.getDest()));
-//        if (shortestPathList.size()>1) {
-//            if (currRobot.getLocation().equalsXY(dg.getNode(minDestEdge.getSrc()).getLocation())){
-//                this.game.chooseNextEdge(currRobot.getR_id(), minDestEdge.getDest());
-//            }
-//            else this.game.chooseNextEdge(currRobot.getR_id(), shortestPathList.get(1).getKey());
-//            this.game.move();
-//        }
-//    }
-//		
-		
-		
-//		double minDis=99999999;
-//		double tempDis=0;
-//		edge_data fruitEdge= new EdgeData();
-//
-//		for (int j=0; j<this.fruitList.size(); j++)
-//		{
-//			Fruit currFruit=this.fruitList.get(j);
-//			tempDis= srcNodeRobot.getLocation().distance3D(currFruit.getLocation());
-//			if (minDis>tempDis)
-//			{
-//				minDis=tempDis;
-//				fruitEdge= theEdgeOfTheFruit(currFruit, this.graph);
-//			}
-//		}
-//
-//		return this.graph.getNode(fruitEdge.getDest()).getKey();
+	//	public List<edge_data> getListOfEdgeWithFruit() 
+	//	{
+	//        List<edge_data> edgeFruitList = new LinkedList<>();
+	//        this.fruits = new FruitsList(this.gam);
+	//        for (Fruits f : this.fruits.fruits) {
+	//        	edgeFruitList.add(getEdge(f));
+	//        }
+	//        return edgeFruitList;
+	//    }
+	//	
+	//	public  int bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
+	//	{
+	//		this.robotList= initRobots(this.game);
+	//        Graph_Algo Ag = new Graph_Algo();
+	//        Ag.init(dg);
+	//        List<edge_data> edgeOfFruit= getListOfEdgeWithFruit();
+	//        edge_data minDestEdge = new EdgeData();
+	//        double min = Integer.MAX_VALUE;
+	//        
+	//        for (edge_data ed : edgeOfFruit) 
+	//        {
+	//            double temp = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
+	//            if (temp< min) 
+	//            {
+	//                min = temp;
+	//                minDestEdge = ed;
+	//            }
+	//        }
+	//        List<node_data> shortestPathList = Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
+	//        shortestPathList.add(dg.getNode(minDestEdge.getDest()));
+	//        if (shortestPathList.size()>1) {
+	//            if (currRobot.getLocation().equalsXY(dg.getNode(minDestEdge.getSrc()).getLocation())){
+	//                this.game.chooseNextEdge(currRobot.getR_id(), minDestEdge.getDest());
+	//            }
+	//            else this.game.chooseNextEdge(currRobot.getR_id(), shortestPathList.get(1).getKey());
+	//            this.game.move();
+	//        }
+	//    }
+	//		
+
+
+	//		double minDis=99999999;
+	//		double tempDis=0;
+	//		edge_data fruitEdge= new EdgeData();
+	//
+	//		for (int j=0; j<this.fruitList.size(); j++)
+	//		{
+	//			Fruit currFruit=this.fruitList.get(j);
+	//			tempDis= srcNodeRobot.getLocation().distance3D(currFruit.getLocation());
+	//			if (minDis>tempDis)
+	//			{
+	//				minDis=tempDis;
+	//				fruitEdge= theEdgeOfTheFruit(currFruit, this.graph);
+	//			}
+	//		}
+	//
+	//		return this.graph.getNode(fruitEdge.getDest()).getKey();
 
 
 
 
-
+/**
+ * check what is the score of the game after the game is over
+ * @return the score
+ * @throws JSONException
+ */
 	public double getGradGame() throws JSONException
 	{
 		double grad=0;

@@ -1,5 +1,11 @@
 package gameClient;
-
+/**
+ * The class represent the automatic game , 
+ * the constructor build the game  and open the window of the GUI,
+ * their is also a init to build the robot from the json file
+ * in  the class we have the function  moveRobotAuto() who move the robot automacally in the graph
+ * that class extends threads.
+ */
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +31,11 @@ public class AutoMyGameGui extends Thread
 	private static int numRobots = 0;
 
 	
-	
+	/**
+	 * default constructor , start the automatic game
+	 * @param game the game she need to start
+	 * @throws JSONException
+	 */
 	public AutoMyGameGui(game_service game) throws JSONException 
 	{
 		StdDraw.gameAuto= this;

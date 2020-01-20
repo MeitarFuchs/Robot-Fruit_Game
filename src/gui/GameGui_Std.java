@@ -1,5 +1,7 @@
 package gui;
-
+/**
+ * this class is responsible to open a window and draw the graph, robots and the fruits on the game.
+ */
 import java.awt.Color;
 import java.awt.Font;
 
@@ -18,19 +20,31 @@ import utils.StdDraw;
 
 public class GameGui_Std 
 {
-
+	/**
+	 * this method repaint the whole game (robots, fruits and graph)
+	 */
 	public void repaintGame(DGraph g ,ArrayList<Fruit> fruitL,ArrayList<Robot> robotL)
 	{
 		paintGame(g,fruitL);
 		paintRobots(robotL);
 	}
-	
+	/**
+	 * this method create the windows of the GUI and send to a method who draw the graph  and the fruits
+	 * @param g the graph we want to draw
+	 * @param fruitL the list of the fruits we want to draw
+	 */
 	public void drawGame(DGraph g,ArrayList<Fruit> fruitL) 
 	{
 		StdDraw.setCanvasSize(800,800);		
 		paintGame(g,fruitL);
 	}
 
+	/**
+	 * this method create the windows of the GUI and send to a method who draw the graph , the robots  and the fruits
+	 * @param g the graph we want to draw
+	 * @param fruitL the list of the fruits we want to draw
+	 * @param robotL the list of the robots we wnat to draw
+	 */
 	public void drawGame(DGraph g,ArrayList<Fruit> fruitL,ArrayList<Robot> robotL) 
 	{
 		StdDraw.setCanvasSize(800,800);	
@@ -39,17 +53,21 @@ public class GameGui_Std
 		paintGame(g,fruitL);
 		paintRobots(robotL);
 	}
+	/**
+	 * this method draw the fruits 
+	 * @param fruitL the list of the fruits we want to draw
+	 */
 	public void paintFruit(ArrayList<Fruit> fruitL) 
 	{
 		for (int i=0; i<fruitL.size(); i++)
 		{
 			Fruit currFruit= new Fruit();
 			currFruit=fruitL.get(i);
-//			if (currFruit.getType()==1)//apple-red   1
-//				
-//			StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"apple.jpeg",0.00007,0.00007);
-//			else//banana-yellow 
-//				StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"banana.jpg",0.0017,0.0017);
+			//			if (currFruit.getType()==1)//apple-red   1
+			//				
+			//			StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"apple.jpeg",0.00007,0.00007);
+			//			else//banana-yellow 
+			//				StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"banana.jpg",0.0017,0.0017);
 			if (currFruit.getType()==1)//apple-red   1
 				StdDraw.setPenColor(Color.RED);
 			else
@@ -57,7 +75,10 @@ public class GameGui_Std
 			StdDraw.filledCircle((currFruit.getLocation().x()) ,(currFruit.getLocation().y() ),0.00018);
 		}
 	}
-
+	/**
+	 * this method draw the robots 
+	 * @param robotL the list of robot we want to draw
+	 */
 	public void paintRobots(ArrayList<Robot> robotL)
 	{
 		for (int i=0; i<robotL.size(); i++)
@@ -68,6 +89,10 @@ public class GameGui_Std
 			StdDraw.picture(currRobot.getLocation().x(), currRobot.getLocation().y(),"bob.png",0.0027,0.0017);
 		}
 	}
+	/**
+	 * this method draw the graph she get , if the nodes are not in the window we change the scale.
+	 * @param g the graph we need to draw
+	 */
 	public void paintGraph(DGraph g)
 	{
 		StdDraw.clear();
@@ -83,7 +108,7 @@ public class GameGui_Std
 			if (r_minx > ndArrList.get(i).getLocation().x())
 				r_minx = ndArrList.get(i).getLocation().x();
 		}
-		
+
 		double r_miny=Integer.MAX_VALUE;
 		double r_maxy=Integer.MIN_VALUE;
 		for (int i = 0; i < ndArrList.size(); i++) {
@@ -92,7 +117,7 @@ public class GameGui_Std
 			if (r_miny > ndArrList.get(i).getLocation().y())
 				r_miny = ndArrList.get(i).getLocation().y();
 		}
-	
+
 		Range ansX = new Range(r_minx,r_maxx);
 		Range ansY = new Range(r_miny,r_maxy);
 
@@ -134,13 +159,18 @@ public class GameGui_Std
 				}
 			}
 		}
-		
-		
+
+
 	}
+	/**
+	 * this method draw the graph and the fruit list
+	 * @param g the graph she need to draw
+	 * @param fruitL the fruit list she need to draw
+	 */
 	public void paintGame(DGraph g,ArrayList<Fruit> fruitL)
 	{
 		StdDraw.clear();
-		
+
 		double r_minx=Integer.MAX_VALUE;
 		double r_maxx=Integer.MIN_VALUE;
 
@@ -224,5 +254,5 @@ public class GameGui_Std
 
 
 	}
-	
+
 }

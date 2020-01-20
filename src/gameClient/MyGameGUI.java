@@ -1,5 +1,14 @@
 package gameClient;
-
+/**
+ * this class represent a game GUI .
+ * there is a constructor who used for starting the game ,
+ * ask the user which level he want to start and which game he want to play (automatic or manual)
+ * there is also functions to play the manual game: 
+ * INIT to get the number of the robots in the game from json  and their information to build them
+ * we have also 2 function to move the robot manual, one who check the mouse clicks and sets the new location of the robot in the manual game mode.  
+ * and the second move the robot to him new destination.
+ * 
+ */
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +45,7 @@ public class MyGameGUI extends Thread
 	 */
 	public MyGameGUI() throws JSONException 
 	{		
-		String[] choiceNumLevel = {"level 0","level 1","level 2","level 3","level 4","level 5","level 6","level 7","level 8","level 9","level 10","level 11","level 12","level 13","level 14","level 15","level 16","level 17","level 18","level 19","level 20","level 21","level 22","level 23"};
+		String[] choiceNumLevel = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 		Object selectedNumLevel = JOptionPane.showInputDialog(null, "Choosenum of game", "Message", JOptionPane.INFORMATION_MESSAGE, null, choiceNumLevel, choiceNumLevel[0]);
 		int level= Integer.parseInt((String) selectedNumLevel);
 		this.gameAlgo.setGameService(Game_Server.getServer(level));		
