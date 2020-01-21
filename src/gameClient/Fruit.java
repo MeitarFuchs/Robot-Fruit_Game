@@ -1,4 +1,6 @@
 package gameClient;
+import static org.junit.Assert.fail;
+
 /**
  * this class build the fruit of the game (automacally and manual both)
  * the fruit is consists few variables , he have type (banana or apple )
@@ -10,8 +12,10 @@ package gameClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import Server.Game_Server;
 import Server.game_service;
 import utils.Point3D;
 
@@ -76,12 +80,17 @@ public class Fruit
 		}
 		return tempFruitList;
 	}
-
-/**
- * this method took all the fruit in the string of the game and build them
- * @param line the string of the game
- * @return the fruit after his building
- */
+ public String toString ()
+ {
+	String ans="\"Fruit\":{\"value\":"+value+",\"type\":"+type+",\"pos\":\""+location+"";
+	return ans;
+	 
+ }
+	/**
+	 * this method took all the fruit in the string of the game and build them
+	 * @param line the string of the game
+	 * @return the fruit after his building
+	 */
 	public Fruit initFromline(String line) 
 	{
 		Fruit currFruit=new Fruit();
@@ -102,4 +111,12 @@ public class Fruit
 		}
 		return currFruit;
 	}
+
+
+
+	public static void main(String[] args) throws JSONException 
+	{
+		
+	}
+
 }

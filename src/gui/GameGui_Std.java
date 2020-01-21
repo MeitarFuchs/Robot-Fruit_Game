@@ -63,16 +63,15 @@ public class GameGui_Std
 		{
 			Fruit currFruit= new Fruit();
 			currFruit=fruitL.get(i);
-			//			if (currFruit.getType()==1)//apple-red   1
-			//				
-			//			StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"apple.jpeg",0.00007,0.00007);
-			//			else//banana-yellow 
-			//				StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"banana.jpg",0.0017,0.0017);
 			if (currFruit.getType()==1)//apple-red   1
-				StdDraw.setPenColor(Color.RED);
-			else
-				StdDraw.setPenColor(Color.YELLOW);//banana-yellow        1
-			StdDraw.filledCircle((currFruit.getLocation().x()) ,(currFruit.getLocation().y() ),0.00018);
+				StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"red.png",0.00005,0.00005);
+			else//banana-yellow 
+				StdDraw.picture(currFruit.getLocation().x(), currFruit.getLocation().y(),"yellow.jpg",0.0005,0.0005);
+			//			if (currFruit.getType()==1)//apple-red   1
+			//				StdDraw.setPenColor(Color.RED);
+			//			else
+			//				StdDraw.setPenColor(Color.YELLOW);//banana-yellow        1
+			//			StdDraw.filledCircle((currFruit.getLocation().x()) ,(currFruit.getLocation().y() ),0.00018);
 		}
 	}
 	/**
@@ -86,7 +85,7 @@ public class GameGui_Std
 			Robot currRobot= new Robot();
 			currRobot=robotL.get(i);
 			StdDraw.setPenColor(Color.ORANGE);     
-			StdDraw.picture(currRobot.getLocation().x(), currRobot.getLocation().y(),"bob.png",0.0027,0.0017);
+			StdDraw.picture(currRobot.getLocation().x(), currRobot.getLocation().y(),"bob.png",0.0020,0.0010);
 		}
 	}
 	/**

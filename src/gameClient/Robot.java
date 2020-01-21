@@ -132,9 +132,8 @@ public class Robot
 	 * @return a list of robot
 	 * @throws JSONException
 	 */
-	public static List<Robot> initFromList(List <String> strList) throws JSONException 
+	public  List<Robot> initFromList(List <String> strList) throws JSONException 
 	{
-
 		List <Robot> robotList = new LinkedList<>();
 		for (String str:strList) 
 		{
@@ -148,7 +147,7 @@ public class Robot
 	 * @return the robot she build
 	 * @throws JSONException
 	 */
-	public static  Robot initLine(String lineJson) throws JSONException 
+	public  Robot initLine(String lineJson) throws JSONException 
 	{
 		JSONObject objline = new JSONObject(lineJson);
 		JSONObject currRobotStr = objline.getJSONObject("Robot");

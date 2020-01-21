@@ -41,18 +41,17 @@ public class KML_Logger {
 	public void makeKML() 
 	{
 		this.strBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" );
-		this.strBuilder.append("<kml xmlns=\"http://earth.google.com/kml/2.2\">\r\n" );
-		this.strBuilder.append("<Document>\r\n" );
-		this.strBuilder.append("<name>"+"Game stage: "+this.level+"</name>"+"\r\n" );
-
-		this.strBuilder.append("<Style id=\"node\">\r\n" ); // start the node
-		this.strBuilder.append("<IconStyle>\r\n" );
-		this.strBuilder.append("<Icon>\r\n" );
-		this.strBuilder.append("<href>http://maps.google.com/mapfiles/kml/pal3/icon35.png</href>\r\n" );
-		this.strBuilder.append("</Icon>\r\n" );
-		this.strBuilder.append("<hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
-		this.strBuilder.append("</IconStyle>\r\n" );
-		this.strBuilder.append("</Style>" );
+		this.strBuilder.append(               "<kml xmlns=\"http://earth.google.com/kml/2.2\">\r\n" );
+		this.strBuilder.append(     "  <Document>\r\n" );
+        this.strBuilder.append("  <name>" + "Game stage :" + this.level + "</name>" +"\r\n");
+        this.strBuilder.append(" <Style id=\"node\">\r\n");
+        this.strBuilder.append(   "      <IconStyle>\r\n" );
+        this.strBuilder.append(    "        <Icon>\r\n" );
+        this.strBuilder.append(    "          <href>http://maps.google.com/mapfiles/kml/pal3/icon35.png</href>\r\n");
+        this.strBuilder.append(    "        </Icon>\r\n" );
+        this.strBuilder.append( "        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n");
+        this.strBuilder.append(  "      </IconStyle>\r\n");
+        this.strBuilder.append( "    </Style>" );
 		robotFruit_Kml();
 	}
 
@@ -61,31 +60,31 @@ public class KML_Logger {
 	 */
 	public void robotFruit_Kml()
 	{
-		this.strBuilder.append("<Style id=\"robot\">\r\n" ); // start the robot
-		this.strBuilder.append("<IconStyle>\r\n" );
-		this.strBuilder.append("<Icon>\r\n" );
-		this.strBuilder.append("<href>http://maps.google.com/mapfiles/kml/shapes/motorcycling.png></href>\r\n" );
-		this.strBuilder.append("<Icon>\r\n" );
-		this.strBuilder.append("<hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
-		this.strBuilder.append("<IconStyle>\r\n" );
-		this.strBuilder.append("</Style>" );
+		this.strBuilder.append(" <Style id=\"robot\">\r\n" );
+		this.strBuilder.append( "      <IconStyle>\r\n" );
+		this.strBuilder.append("        <Icon>\r\n" );
+		this.strBuilder.append( "          <href>http://maps.google.com/mapfiles/kml/pal4/icon26.png></href>\r\n" );
+		this.strBuilder.append( "        </Icon>\r\n" );
+		this.strBuilder.append("        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
+		this.strBuilder.append( "      </IconStyle>\r\n");
+		this.strBuilder.append(  "    </Style>");
 
-		this.strBuilder.append("<Style id=\"fruit_-1\">\r\n" );// start the fruit
-		this.strBuilder.append("<IconStyle>\r\n" );
-		this.strBuilder.append("<Icon>\r\n" );
-		this.strBuilder.append("<href>http://maps.google.com/mapfiles/kml/paddle/purple-stars.png</href>\r\n" );
-		this.strBuilder.append("<Icon>\r\n" );
-		this.strBuilder.append("<hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
-		this.strBuilder.append("<IconStyle>\r\n" );
-		this.strBuilder.append("</Style>" );
-		this.strBuilder.append("<Style id=\"fruit_1\">\r\n" );
-		this.strBuilder.append("<IconStyle>\r\n" );
-		this.strBuilder.append("<Icon>\r\n" );
-		this.strBuilder.append("<href>http://maps.google.com/mapfiles/kml/paddle/red-stars.png</href>\r\n" );
-		this.strBuilder.append("</Icon>\r\n" );
-		this.strBuilder.append("<hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
-		this.strBuilder.append(" </IconStyle>\\r\\n" );
-		this.strBuilder.append("</Style>") ;
+		this.strBuilder.append(     " <Style id=\"banana\">\r\n" );
+		this.strBuilder.append(    "      <IconStyle>\r\n" );
+		this.strBuilder.append(    "        <Icon>\r\n" );
+		this.strBuilder.append(    "          <href>http://maps.google.com/mapfiles/kml/pal5/icon49.png</href>\r\n" );
+		this.strBuilder.append("        </Icon>\r\n" );
+		this.strBuilder.append( "        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
+		this.strBuilder.append(  "      </IconStyle>\r\n" );
+		this.strBuilder.append(  "    </Style>" );
+		this.strBuilder.append(" <Style id=\"apple\">\r\n" );
+		this.strBuilder.append( "      <IconStyle>\r\n" );
+		this.strBuilder.append( "        <Icon>\r\n" );
+		this.strBuilder.append( "          <href>http://maps.google.com/mapfiles/kml/pal5/icon56.png</href>\r\n" );
+		this.strBuilder.append( "        </Icon>\r\n" );
+		this.strBuilder.append(  "        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
+		this.strBuilder.append("      </IconStyle>\r\n" );
+		this.strBuilder.append( "    </Style>" );
 	}
 
 	/**
@@ -96,15 +95,15 @@ public class KML_Logger {
 	public void placeMark(String id, String position)
 	{
 		LocalDateTime localTime = LocalDateTime.now();
-		this.strBuilder.append("<Placemark>\r\n" );
-		this.strBuilder.append("<TimeStamp>\r\n" );
-		this.strBuilder.append("<when>"+localTime+"</when>\r\n" );
-		this.strBuilder.append("</TimeStamp>\r\n" );
-		this.strBuilder.append("<styleUrl>#"+id+"</styleUrl>\r\n" );
-		this.strBuilder.append( "<Point>\r\n" );
-		this.strBuilder.append("<coordinates>"+position +"</coordinates>\r\n" );
-		this.strBuilder.append("</Point>\r\n" );
-		this.strBuilder.append("</Placemark>\r\n" );
+		this.strBuilder.append( "    <Placemark>\r\n" );
+		this.strBuilder.append(    "      <TimeStamp>\r\n" );
+		this.strBuilder.append(      "        <when>" + localTime+ "</when>\r\n" );
+		this.strBuilder.append(     "      </TimeStamp>\r\n" );
+		this.strBuilder.append(       "      <styleUrl>#" + id + "</styleUrl>\r\n" );
+		this.strBuilder.append(        "      <Point>\r\n" );
+		this.strBuilder.append(        "        <coordinates>" + position + "</coordinates>\r\n" );
+		this.strBuilder.append(        "      </Point>\r\n" );
+        this.strBuilder.append(        "    </Placemark>\r\n");
 	}
 
 	/**
@@ -112,8 +111,8 @@ public class KML_Logger {
      */
 	public void close_KML()
 	{
-		this.strBuilder.append("</Document>\r\n" );
-		this.strBuilder.append("</kml>" );
+		this.strBuilder.append("  </Document>\r\n");
+		this.strBuilder.append("</kml>");
 	}
 
 	/**
@@ -131,7 +130,6 @@ public class KML_Logger {
 			e.printStackTrace();
 		}
 	}
-
 
 
 

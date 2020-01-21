@@ -1,9 +1,16 @@
 package testing;
 
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import Server.Game_Server;
+import Server.game_service;
+import gameClient.Fruit;
 import gameClient.Robot;
 import utils.Point3D;
 
@@ -54,6 +61,7 @@ class RobotTest {
 		if (robot.getDest()!=8)
 			fail("the get destination is not good");	
 		}
+	
 	@Test
 	void setLocationTest() {
 		Point3D p = new Point3D(1,7,0);
@@ -62,6 +70,79 @@ class RobotTest {
 		if (robot.getLocation()!=p)
 			fail("the get location is not good");	
 		}
+	
+	@Test
+	public void initFromListFTest() 
+	{
+		game_service game = Game_Server.getServer(1);
+		List <String> fruitStrings = game.getFruits();
+		ArrayList<Fruit> ansListFruit ;
+		Fruit currFruitInLIst=new Fruit();
+		ansListFruit= currFruitInLIst.initFromListSFruit(fruitStrings);
+
+		currFruitInLIst=ansListFruit.get(0);
+		if (currFruitInLIst.getType()!= -1)
+		{
+			fail();
+		}
+		System.out.println("lll"+currFruitInLIst.getValue());
+		if (currFruitInLIst.getValue()!= 5.0)
+		{
+			fail();
+		}
+		Point3D p=new Point3D(35.197656770719604,32.10191878639921,0.0);
+
+		if (!currFruitInLIst.getLocation().toString().equals(p.toString()))
+		{
+			fail();
+		}
+
+	}
+
+	@Test
+	public void initFromlineTest() 
+	{
+		game_service game = Game_Server.getServer(1);
+		List <String> frStrings = game.getFruits();
+		String str = frStrings.get(0);
+		System.out.println(str);
+		Fruit currFruit =new Fruit();
+
+		try 
+		{
+			currFruit=currFruit.initFromline(str);
+
+			System.out.println(currFruit.getType());
+			if (currFruit.getType() != -1)
+			{
+				System.out.println(currFruit.getType());
+				fail();
+			}
+			System.out.println(currFruit.getValue());
+
+			if (currFruit.getValue()!=5.0)
+			{
+				fail();
+			}
+
+			Point3D p=new Point3D(35.197656770719604,32.10191878639921,0.0);
+			System.out.println(currFruit.getLocation().toString());
+			System.out.println(p.toString());
+
+			if (!currFruit.getLocation().toString().equals(p.toString()))
+			{
+				fail();
+			}
+
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 	
 
 }

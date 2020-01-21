@@ -1,4 +1,5 @@
 package gameClient;
+import java.io.IOException;
 /**
  * this class represent a game GUI .
  * there is a constructor who used for starting the game ,
@@ -39,7 +40,8 @@ public class MyGameGUI extends Thread
 	private boolean automatic=false;
 	private boolean manual=false;
 	private node_data nodeClick;
-
+	private KML_Logger kml = new KML_Logger();
+	private int level;
 	/**
 	 *Default constructor.(start the game)
 	 */
@@ -53,7 +55,6 @@ public class MyGameGUI extends Thread
 		String[] chooseTypeGame = {"Automatic game","Manual game"};
 		Object typeSelectedGame = JOptionPane.showInputDialog(null, "Choose game mode", "Message", JOptionPane.INFORMATION_MESSAGE, null, chooseTypeGame, chooseTypeGame[0]);
 		StdDraw.gameGui= this;
-
 		StdDraw.clear();
 
 		if (typeSelectedGame=="Automatic game")
@@ -122,7 +123,7 @@ public class MyGameGUI extends Thread
 		}
 		return robotList;
 	}
-	
+
 	/**
 	 * This function adding the currnt robot string from the service to the list of all the exist robots in Our game.
 	 */
@@ -137,11 +138,11 @@ public class MyGameGUI extends Thread
 		double speed =currRobotString.getInt("speed");
 		String pointStr =currRobotString.getString("pos");
 		Point3D currPoint = new Point3D(pointStr);
-		
+
 		Robot currRobot= new Robot(id, src, dest, currPoint, value, speed);
 		return currRobot;
 	}
-	
+
 	/**
 	 *This function check the clicks and sets the new location of the robot in the manual game mode.
 	 */
@@ -185,7 +186,7 @@ public class MyGameGUI extends Thread
 					{						
 						this.gameAlgo.getGameService().chooseNextEdge(this.robotT.getR_id(), nodeDest.getKey());
 						this.gameAlgo.getGameService().move();
-						
+
 						foundLegalEdge=true;
 					}
 				}
@@ -223,7 +224,60 @@ public class MyGameGUI extends Thread
 			}
 		}
 	}
-	
+
+	/**
+	 * this method update the fruits from the server while the game is running.
+	 */
+	public void updateFruits()
+	{
+		List<String> updateFruits = this.gameAlgo.getGameService().getFruits();
+		if(updateFruits != null)
+		{
+			for (int i = 0; i < this.gameAlgo.getFruitList().size(); i++)
+			{
+				this.gameAlgo.getFruitList().get(i).initFromline(updateFruits.get(i));
+				if(this.kml != null)
+				{
+					if(this.gameAlgo.getFruitList().get(i).getType() == 1)
+					{
+						this.kml.placeMark("red.png" , this.gameAlgo.getFruitList().get(i).getLocation().toString());
+					}
+					else
+					{
+						this.kml.placeMark("banana.jpg" , this.gameAlgo.getFruitList().get(i).getLocation().toString());
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 *this method update the robots from the server while the game is running.
+	 * @throws JSONException 
+	 */
+	public void updateRobots() throws JSONException
+	{
+		List<String> updateRobots = this.gameAlgo.getGameService().getRobots();
+		for (int i = 0; i < this.gameAlgo.getRobotList().size(); i++) 
+		{
+			this.gameAlgo.getRobotList().get(i).initLine(updateRobots.get(i));
+			if (this.kml != null)
+			{
+				this.kml.placeMark("bob.png" , this.gameAlgo.getRobotList().get(i).getLocation().toString());
+			}
+		}
+	}
+
+	public void KMLclose() throws IOException {
+
+		kml.close_KML();
+		kml.save_KML();
+
+	}
+	public void setKml(KML_Logger kml)
+	{
+		this.kml = kml;
+	}
 	/**
 	 * The RunFunction of the this thread
 	 */
@@ -231,9 +285,17 @@ public class MyGameGUI extends Thread
 	{
 		while(this.gameAlgo.getGameService().isRunning())
 		{
+
+			try {
+				updateFruits();
+				updateRobots();
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			this.gameAlgo.setRobotList(this.gameAlgo.initRobots(this.gameAlgo.getGameService()));
 			this.gameAlgo.setFruitList(this.gameAlgo.initFruit(this.gameAlgo.getGameService()));
-			
+
 			if (this.manual)
 			{// this.manual==true
 				try 
@@ -254,16 +316,6 @@ public class MyGameGUI extends Thread
 			} 
 			catch (InterruptedException e) {e.printStackTrace();}
 		}
-
-		try 
-		{
-			sleep(1000);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
-		}
-
 		//**********Grade**********
 		if (!this.gameAlgo.getGameService().isRunning())
 		{
@@ -277,7 +329,15 @@ public class MyGameGUI extends Thread
 				e.printStackTrace();
 			}
 		}
+		try {
+			KMLclose();
+		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
+
 
 	public static void main(String[] args) throws JSONException 
 	{

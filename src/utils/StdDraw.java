@@ -86,6 +86,8 @@ import gameClient.MyGameGUI;
 public class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 	  public static MyGameGUI gameGui;
 	  public static AutoMyGameGui gameAuto;
+	  //public static boolean saveKML = false;
+
 	  
 	  
 	  
