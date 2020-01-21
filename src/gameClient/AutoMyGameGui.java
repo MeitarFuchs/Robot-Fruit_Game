@@ -9,6 +9,8 @@ import java.io.IOException;
  */
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -19,6 +21,7 @@ import org.json.JSONObject;
 
 import Server.game_service;
 import dataStructure.DGraph;
+import dataStructure.edge_data;
 import dataStructure.node_data;
 import gui.GameGui_Std;
 import utils.Point3D;
@@ -30,9 +33,9 @@ public class AutoMyGameGui extends Thread
 	private GameGui_Std GuiStd= new GameGui_Std();
 	private boolean automatic=true;
 	private static int numRobots = 0;
-    private KML_Logger kml = new KML_Logger();
+	private KML_Logger kml = new KML_Logger();
 
-	
+
 	/**
 	 * default constructor , start the automatic game
 	 * @param game the game she need to start
@@ -59,46 +62,137 @@ public class AutoMyGameGui extends Thread
 		StdDraw.show();
 
 		this.gameAlgo.getGameService().startGame();
-		
+
 		this.start();
 	}
-	
+
 	/**
-     * This function move the robot to his destanetion.
-     */
+	 * This function move the robot to his destanetion.
+	 */
 	private void moveRobotAuto() throws JSONException //move Robot Automaticly
 	{
 		List<String> log = this.gameAlgo.getGameService().move();
 		if(log!=null) 
 		{
-			for(int i=0;i<log.size();i++) 
+			long time = this.gameAlgo.getGameService().timeToEnd();
+			for (int i = 0; i <log.size(); i++) 
 			{
-				String robot_json = log.get(i);
+				String robotSrting = log.get(i);
 				try 
 				{
-					JSONObject line = new JSONObject(robot_json);
-					JSONObject ttt = line.getJSONObject("Robot");
-					int rid = ttt.getInt("id");
-					int src = ttt.getInt("src");
-					int dest = ttt.getInt("dest");
+					JSONObject line = new JSONObject(robotSrting);
+					JSONObject currRobotStr = line.getJSONObject("Robot");
+					int r_id = currRobotStr.getInt("id");
+					int src = currRobotStr.getInt("src");
+					int dest = currRobotStr.getInt("dest");
+					String pointString=currRobotStr.getString("pos");
+					Point3D point = new Point3D(pointString);
 
+					Robot tempRobot=new Robot(r_id, src, dest,point);
 					if(dest==-1) 
 					{	
-						dest = this.gameAlgo.nextNode(this.gameAlgo.getGraph(),src);
-						this.gameAlgo.getGameService().chooseNextEdge(rid, dest);
+						System.out.println("if(dest==-1) ");
+						List <node_data> shourtestWay= new LinkedList<node_data>();
+						if (this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src) == -1) // if there is no fruit on the ronot's edge neibers
+						{
+							int closeSrcEdgeFruit=this.gameAlgo.theClosetestFruitToRobot(this.gameAlgo.getGraph().getNode(src).getKey());
+							System.out.println(closeSrcEdgeFruit+"closeSrcEdgeFruit");
+							shourtestWay= this.gameAlgo.getShourtestPath(tempRobot.getSrc(), closeSrcEdgeFruit);
+							System.out.println("shourtestWay.size():  "+ shourtestWay.size());
+							dest =shourtestWay.get(1).getKey();	
+
+							this.gameAlgo.getRobotList().get(r_id).setDest(dest);
+						}
+						else // Ihave fruit on one of the edge that is my neiber
+						{
+							System.out.println("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+							dest=this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src);	
+							System.out.println("DEST: "+dest);
+						}
+
 					}
+
+					if( this.gameAlgo.getRobotList().size()>1)
+					{
+						System.out.println("this.gameAlgo.getRobotList().size()>1");
+						for (int k=0; k<this.gameAlgo.getRobotList().size()-1; k++)
+						{
+							if (this.gameAlgo.getRobotList().get(k).getDest()==this.gameAlgo.getRobotList().get(k+1).getDest()) // if to robot sent to the same dest
+							{
+								System.out.println("if dest are equls");
+								dest=this.gameAlgo.nextNodeRandomly(this.gameAlgo.getGraph(), this.gameAlgo.getRobotList().get(k+1).getSrc());
+								this.gameAlgo.getRobotList().get(k+1).setDest(dest);
+								this.gameAlgo.getGameService().chooseNextEdge(this.gameAlgo.getRobotList().get(k+1).getR_id(), dest);
+								this.gameAlgo.getGameService().move();
+							}
+						}
+					}
+					this.gameAlgo.getGameService().chooseNextEdge(r_id, dest);
+					this.gameAlgo.getGameService().move();
+
 				}
-				catch (JSONException e) {e.printStackTrace();}
-			}
+				catch (JSONException e) { }
+			} 
 		}
 	}
-	
+
+
+
+
+	//		List<String> log = this.gameAlgo.getGameService().move();
+	//		if(log!=null) 
+	//		{
+	//			for(int i=0;i<log.size();i++) 
+	//			{
+	//				String robot_json = log.get(i);
+	//				try 
+	//				{
+	//					JSONObject line = new JSONObject(robot_json);
+	//					JSONObject currRobotStr = line.getJSONObject("Robot");
+	//					int r_id = currRobotStr.getInt("id");
+	//					int src = currRobotStr.getInt("src");
+	//					int dest = currRobotStr.getInt("dest");
+	//					String pointString=currRobotStr.getString("pos");
+	//					Point3D point = new Point3D(pointString);
+	//
+	//					Robot tempRobot=new Robot(r_id, src, dest,point);
+	//					if(dest==-1) 
+	//					{	
+	//						this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(),tempRobot);
+	//						clearTagEdge(this.gameAlgo.getGraph());
+	//						
+	//						//dest = this.gameAlgo.nextNode(this.gameAlgo.getGraph(),src);
+	//						//this.gameAlgo.getGameService().chooseNextEdge(rid, dest);
+	//					}
+	//				}
+	//				catch (JSONException e) {e.printStackTrace();}
+	//			}
+	//		}
+	//		this.gameAlgo.getGameService().move();
+
+
+	private void clearTagEdge(DGraph graph) 
+	{
+		Iterator<node_data> itN = this.gameAlgo.getGraph().getV().iterator(); 
+		while (itN.hasNext()) 
+		{
+			node_data nd = itN.next();
+			Iterator<edge_data> itE = this.gameAlgo.getGraph().getE(nd.getKey()).iterator(); 
+			while (itE.hasNext()) 
+			{
+				edge_data ed = itE.next();
+				ed.setTag(0);
+			}
+		}
+
+	}
+
 	public void KMLclose() throws IOException {
-        
-        kml.close_KML();
-        kml.save_KML();
-    
-}
+
+		kml.close_KML();
+		kml.save_KML();
+
+	}
 	/**
 	 * this method update the fruits from the server while the game is running.
 	 */
@@ -180,15 +274,15 @@ public class AutoMyGameGui extends Thread
 			}
 		}
 		try {
-            KMLclose();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			KMLclose();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
-     * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
-     */
+	 * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
+	 */
 	public  ArrayList<Robot> initRobotsFromList(List <String> strList) throws JSONException 
 	{
 		ArrayList<Robot> robotList = new ArrayList<>();
@@ -199,8 +293,8 @@ public class AutoMyGameGui extends Thread
 		return robotList;
 	}
 	/**
-     * This function adding the currnt robot string from the service to the list of all the exist robots in Our game.
-     */
+	 * This function adding the currnt robot string from the service to the list of all the exist robots in Our game.
+	 */
 	public  Robot initLine(String lineJson) throws JSONException 
 	{
 		JSONObject obj = new JSONObject(lineJson);
@@ -212,9 +306,9 @@ public class AutoMyGameGui extends Thread
 		double speed =array_robots.getInt("speed");
 		String pointStr =array_robots.getString("pos");
 		Point3D currPoint = new Point3D(pointStr);
-		
+
 		Robot currRobot= new Robot(id,src,dest,currPoint,value,speed);
 		return currRobot;
 	}
-	
+
 }

@@ -11,10 +11,12 @@ package gameClient;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import Server.game_service;
+import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.EdgeData;
 import dataStructure.NodeData;
@@ -305,15 +307,14 @@ public class GameAlgorithms
 	//		}
 	//		this.robotList = tempR;
 	//	}
-/**
- * chose randomly the next node the robot will go
- * @param g the graph of the game
- * @param src the key of the node the robot is in
- * @return the key of the node the robot need to go
- */
-	public  int nextNode(DGraph g, int src) 
+	/**
+	 * chose randomly the next node the robot will go
+	 * @param g the graph of the game
+	 * @param src the key of the node the robot is in
+	 * @return the key of the node the robot need to go
+	 */
+	public  int nextNodeRandomly(DGraph g, int src) 
 	{
-
 		int ans = -1;
 		Collection<edge_data> ee = this.graph.getE(src);
 		Iterator<edge_data> itr = ee.iterator();
@@ -324,11 +325,66 @@ public class GameAlgorithms
 		ans = itr.next().getDest();
 		return ans;
 	}
-/**
- * this method check in which node the robot is in
- * @param robot the robot
- * @return the node the the robot is in
- */
+
+	public  int nextNodeONMyNeib(DGraph g, int src) 
+	{
+		int ans = -1;
+		Collection<edge_data> ee = this.graph.getE(src);
+		Iterator<edge_data> itEdge = ee.iterator();
+		while(itEdge.hasNext())
+		{
+			edge_data ed=itEdge.next();
+			for (int i=0; i<this.fruitList.size(); i++)
+			{
+				edge_data edgeOfFruit= theEdgeOfTheFruit(this.fruitList.get(i),this.graph);
+				if (ed.getSrc()==edgeOfFruit.getSrc() && ed.getDest()==edgeOfFruit.getDest())
+				{
+					return ed.getDest();
+				}
+			}
+		}
+		System.out.println("bye nextNodeONMyNeibbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+		return ans;
+		
+	}
+	public  int theClosetestFruitToRobot(int keySrc) //the src of the edge of the fruit that is the clostest to the robot
+	{
+		double minDis=Double.MAX_VALUE;
+		double tempDis=0;
+		int ansSrcFruit=-1;
+		Graph_Algo Ag = new Graph_Algo();
+		Ag.init(this.graph);
+		for (int i=0; i<this.fruitList.size(); i++)
+		{
+			Fruit currFruit=this.fruitList.get(i);
+			int SrcFruit= theEdgeOfTheFruit(currFruit, graph).getSrc();
+			tempDis= Ag.shortestPathDist(keySrc, SrcFruit);
+			System.out.println("tempDis: "+tempDis);
+			System.out.println("shortestPath  1111111111111111111111111111111111111111111111");
+			if (tempDis<minDis)
+			{
+				System.out.println("minDis:  "+minDis);
+				minDis=tempDis;
+				System.out.println("minDis:  "+minDis);
+				ansSrcFruit=SrcFruit;
+			}
+			
+		}
+
+		return ansSrcFruit;
+	}
+	public List<node_data> getShourtestPath (int src, int dest)
+	{
+		System.out.println("shortestPath  44444444444444444444444444444444444444444");
+		Graph_Algo Ag = new Graph_Algo();
+		Ag.init(this.graph);
+		return Ag.shortestPath(src, dest);
+	}
+	/**
+	 * this method check in which node the robot is in
+	 * @param robot the robot
+	 * @return the node the the robot is in
+	 */
 	public node_data theNodeRobot(Robot robot) // if not close to any robot - return null
 	{
 		Iterator<node_data> itN = this.graph.getV().iterator(); 
@@ -345,12 +401,12 @@ public class GameAlgorithms
 		return null;
 
 	}
-/**
- * this method check next to which robot the mouse click was
- * @param listRo list of robots
- * @param clickPoint the location of the mouse click
- * @return the robot that the click was next to him
- */
+	/**
+	 * this method check next to which robot the mouse click was
+	 * @param listRo list of robots
+	 * @param clickPoint the location of the mouse click
+	 * @return the robot that the click was next to him
+	 */
 	public Robot robotYouCloseTo(ArrayList<Robot> listRo,Point3D clickPoint) // if not close to any robot - return null
 	{
 		double min=999999999;
@@ -374,13 +430,13 @@ public class GameAlgorithms
 
 		return null;
 	}
-/**
- * this method check next to which node the mouse was , in the graph she have
- * @param dg the graph
- * @param clickPoint the location of the mouse click
- * @return the node that the click was closed to ,
- * if not close to any node - return nullif not close to any node - return null
- */
+	/**
+	 * this method check next to which node the mouse was , in the graph she have
+	 * @param dg the graph
+	 * @param clickPoint the location of the mouse click
+	 * @return the node that the click was closed to ,
+	 * if not close to any node - return nullif not close to any node - return null
+	 */
 	public node_data nodeYouCloseTo(DGraph dg ,Point3D clickPoint) 
 	{
 		boolean foundNode=false;
@@ -405,10 +461,10 @@ public class GameAlgorithms
 
 		return null;
 	}
-/**
- * check for each robot what it the better place for him to start the game
- * @param dg the graph of the game
- */
+	/**
+	 * check for each robot what it the better place for him to start the game
+	 * @param dg the graph of the game
+	 */
 	public  void startLocationRobot(DGraph dg)
 	{
 		boolean flag=false;
@@ -508,72 +564,81 @@ public class GameAlgorithms
 		return edgeFruit;
 	}
 
-	//	public List<edge_data> getListOfEdgeWithFruit() 
-	//	{
-	//        List<edge_data> edgeFruitList = new LinkedList<>();
-	//        this.fruits = new FruitsList(this.gam);
-	//        for (Fruits f : this.fruits.fruits) {
-	//        	edgeFruitList.add(getEdge(f));
-	//        }
-	//        return edgeFruitList;
-	//    }
-	//	
-	//	public  int bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
-	//	{
-	//		this.robotList= initRobots(this.game);
-	//        Graph_Algo Ag = new Graph_Algo();
-	//        Ag.init(dg);
-	//        List<edge_data> edgeOfFruit= getListOfEdgeWithFruit();
-	//        edge_data minDestEdge = new EdgeData();
-	//        double min = Integer.MAX_VALUE;
-	//        
-	//        for (edge_data ed : edgeOfFruit) 
-	//        {
-	//            double temp = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
-	//            if (temp< min) 
-	//            {
-	//                min = temp;
-	//                minDestEdge = ed;
-	//            }
-	//        }
-	//        List<node_data> shortestPathList = Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
-	//        shortestPathList.add(dg.getNode(minDestEdge.getDest()));
-	//        if (shortestPathList.size()>1) {
-	//            if (currRobot.getLocation().equalsXY(dg.getNode(minDestEdge.getSrc()).getLocation())){
-	//                this.game.chooseNextEdge(currRobot.getR_id(), minDestEdge.getDest());
-	//            }
-	//            else this.game.chooseNextEdge(currRobot.getR_id(), shortestPathList.get(1).getKey());
-	//            this.game.move();
-	//        }
-	//    }
-	//		
+	public List<edge_data> getListOfEdgeWithFruit() 
+	{
+		List <edge_data> edgeFruitList = new LinkedList<edge_data>();
+		buildFruitList(this.game);
+		for (Fruit f : this.fruitList) 
+		{
+			edgeFruitList.add(theEdgeOfTheFruit(f,this.graph));
+		}
 
+		return edgeFruitList;
+	}
 
-	//		double minDis=99999999;
-	//		double tempDis=0;
-	//		edge_data fruitEdge= new EdgeData();
-	//
-	//		for (int j=0; j<this.fruitList.size(); j++)
-	//		{
-	//			Fruit currFruit=this.fruitList.get(j);
-	//			tempDis= srcNodeRobot.getLocation().distance3D(currFruit.getLocation());
-	//			if (minDis>tempDis)
-	//			{
-	//				minDis=tempDis;
-	//				fruitEdge= theEdgeOfTheFruit(currFruit, this.graph);
-	//			}
-	//		}
-	//
-	//		return this.graph.getNode(fruitEdge.getDest()).getKey();
+	public  void bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
+	{
+		this.robotList= initRobots(this.game);
+		Graph_Algo Ag = new Graph_Algo();
+		Ag.init(dg);
+		double tempDis=0;
+		List<edge_data> edgeOfFruits= getListOfEdgeWithFruit();
 
+		System.out.println("edgeOfFruits"+edgeOfFruits.size());
 
+		edge_data minDestEdge = new EdgeData();
+		double min = Integer.MAX_VALUE;
+		for (edge_data ed : edgeOfFruits) 
+		{
+			System.out.println("ed"+ edgeOfFruits.size());
+			if (ed.getTag()!=1)
+			{	         
+				System.out.println("ed.getTag()!=1");
+				if (currRobot.getSrc()!=ed.getSrc())
+				{
+					System.out.println("currRobot.getSrc()!=ed.getSrc()");
+					tempDis = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
+					System.out.println("shortestPath  2222222222222222222222222222222222222222222");
+				}
+				else
+					tempDis= 0;
 
+				System.out.println("bake from shortestPathDist");
+				if (tempDis<min) 
+				{
+					min= tempDis;
+					minDestEdge= ed;
+				}
+			}
+		}
 
-/**
- * check what is the score of the game after the game is over
- * @return the score
- * @throws JSONException
- */
+		if ( tempDis==0)//minDestEdge.getSrc() == currRobot.getSrc()
+		{
+			System.out.println("tempDis==0");
+			this.game.chooseNextEdge(currRobot.getR_id(), minDestEdge.getDest());
+			this.game.move();
+		}
+		else
+		{
+			System.out.println("else");
+			List <node_data> way= Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
+			System.out.println("shortestPath  3333333333333333333333333333333333333333333333333");
+			way.add(dg.getNode(minDestEdge.getDest())); // because we want to pass the fruit not just to go to the src of the edge 
+			way.get(0).setTag(1);
+
+			System.out.println("srcEdge loc: "+dg.getNode(minDestEdge.getSrc()).getLocation().toString());
+			System.out.println("robot loc: "+currRobot.getLocation().toString());
+
+			this.game.chooseNextEdge(currRobot.getR_id(), way.get(0).getKey());
+			this.game.move();
+		}
+	}
+
+	/**
+	 * check what is the score of the game after the game is over
+	 * @return the score
+	 * @throws JSONException
+	 */
 	public double getGradGame() throws JSONException
 	{
 		double grad=0;

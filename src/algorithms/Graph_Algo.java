@@ -143,12 +143,17 @@ public class Graph_Algo implements graph_algorithms, Serializable
 	@Override
 	public double shortestPathDist(int src, int dest) 
 	{
-		List<node_data> lNd=new LinkedList<node_data>() ;
+		System.out.println("wellcom to shourtestPath");
+		List<node_data> lNd=new LinkedList<node_data>();
+		System.out.println("shortestPathDist");
 		lNd=shortestPath(src, dest);
+		System.out.println("lNd.isEmpty():  "+lNd.isEmpty());
 		if (lNd.isEmpty())
 			return -1;
 		double dis=this.myGraph.getNode(dest).getWeight();
+		System.out.println("bye to shourtestPath");
 		return dis;
+
 	}
 	@Override
 	public List<node_data> shortestPath(int src, int dest) 
@@ -156,15 +161,25 @@ public class Graph_Algo implements graph_algorithms, Serializable
 		infinityNodeW();
 		initColor(0);
 		int count=0;
-
+		System.out.println("p1");
 		Queue<node_data> queueNode = new LinkedList<node_data>();
 		List<node_data> shortestPathList=new LinkedList<node_data>();
 		node_data srcN = new NodeData(this.myGraph.HashMapNode.get(src));
 		node_data destN = this.myGraph.HashMapNode.get(dest);
+		System.out.println("p2");
+		System.out.println("this.myGraph.HashMapNode.get(src) "+this.myGraph.HashMapNode.get(src));
+		System.out.println("dest: "+dest);
+		System.out.println("this.myGraph.HashMapNode.get(dest) "+this.myGraph.HashMapNode.get(dest));
+
+		
 		if (this.myGraph.HashMapNode.get(src)==null ||  this.myGraph.HashMapNode.get(dest)==null)
 		{
-			return null;
+			System.out.println("src or dest null");
+			shortestPathList.add(destN);//
+			return shortestPathList; //
+			//return null;
 		}
+		System.out.println("p3");
 
 		srcN.setWeight(0);
 		srcN.setInfo("");
@@ -175,6 +190,8 @@ public class Graph_Algo implements graph_algorithms, Serializable
 		Iterator<node_data> itNode = this.myGraph.getV().iterator();
 		while(itNode.hasNext()) 
 		{
+			System.out.println("p4");
+
 			node_data nd = itNode.next();
 			Iterator<edge_data> itEdge = this.myGraph.getE(nd.getKey()).iterator();
 			while(itEdge.hasNext()) 
@@ -183,15 +200,18 @@ public class Graph_Algo implements graph_algorithms, Serializable
 				countEdge++;
 			}
 		}
+		System.out.println("p5");
 
-		while(count<(Math.pow(2, countEdge)))	
+		while(count < 1000)	//(Math.pow(2, countEdge))
 		{
+			System.out.println("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
 			Iterator<edge_data> itEdge = this.myGraph.getE(currNode.getKey()).iterator();
-
+			System.out.println("itEdge"+itEdge.toString());
 			if (itEdge.hasNext())
 			{	
-				while (itEdge.hasNext()) 
+				while (itEdge.hasNext())  ////////////////////
 				{
+					System.out.println("p6");
 					edge_data currEdge = (edge_data) itEdge.next();
 					if(this.myGraph.getNode(currEdge.getDest())!=null)
 					{
@@ -199,12 +219,23 @@ public class Graph_Algo implements graph_algorithms, Serializable
 						{
 							this.myGraph.getNode(currEdge.getDest()).setWeight(currNode.getWeight()+currEdge.getWeight());//update w
 							this.myGraph.getNode(currEdge.getDest()).setInfo(""+currNode.getKey());
+							currNode.setTag(1);
+							System.out.println("kkkk 1");
 						}
+						System.out.println("kkkk 2");
+						
 						if ((this.myGraph.getNode(currEdge.getDest())).getTag()==0)
-						{queueNode.add(this.myGraph.getNode(currEdge.getDest()));}
+						{
+							System.out.println("p7");
+							queueNode.add(this.myGraph.getNode(currEdge.getDest()));
+						}
+						System.out.println("p8");
 					}
-				}
+				}////////////////////		
+				System.out.println("getOut");
 			}
+			
+			System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
 			node_data minNode= new NodeData();
 			minNode=null;
 			node_data temp=new NodeData();
@@ -223,7 +254,7 @@ public class Graph_Algo implements graph_algorithms, Serializable
 				}
 
 			}
-
+			System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 			currNode.setTag(1);
 			if (minNode!=null)
 			{
@@ -233,6 +264,7 @@ public class Graph_Algo implements graph_algorithms, Serializable
 
 			count++;
 		}
+		System.out.println("out fron whileeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
 		if (!destN.getInfo().equals(""))
 		{
@@ -249,11 +281,14 @@ public class Graph_Algo implements graph_algorithms, Serializable
 
 		if (shortestPathList.size()==1 )
 		{
-			shortestPathList=null;
-			return null;
+			System.out.println("size==1");
+			//shortestPathList=null;
+			return shortestPathList;
 		}
-
+		
+		System.out.println("finishhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 		return swapListNode(shortestPathList);
+
 
 	}
 
