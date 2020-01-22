@@ -49,8 +49,8 @@ public class MyGameGUI extends Thread
 	{		
 		String[] choiceNumLevel = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 		Object selectedNumLevel = JOptionPane.showInputDialog(null, "Choosenum of game", "Message", JOptionPane.INFORMATION_MESSAGE, null, choiceNumLevel, choiceNumLevel[0]);
-//		int id = 315325605;
-//		Game_Server.login(id);
+		int id = 315325605;
+		Game_Server.login(id);
 		int level= Integer.parseInt((String) selectedNumLevel);
 		this.gameAlgo.setGameService(Game_Server.getServer(level));		
 

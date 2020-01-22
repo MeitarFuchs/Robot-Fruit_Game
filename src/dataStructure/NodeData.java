@@ -129,5 +129,11 @@ public class NodeData implements node_data,Serializable {
 	public void setTag(int t) {
 		this.Tag=t;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ""+getKey();
+	}
 
 }

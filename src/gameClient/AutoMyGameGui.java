@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -34,6 +35,8 @@ public class AutoMyGameGui extends Thread
 	private boolean automatic=true;
 	private static int numRobots = 0;
 	private KML_Logger kml = new KML_Logger();
+	private Queue<Integer> q=new LinkedList<>();
+
 
 
 	/**
@@ -89,52 +92,65 @@ public class AutoMyGameGui extends Thread
 					Point3D point = new Point3D(pointString);
 
 					Robot tempRobot=new Robot(r_id, src, dest,point);
+
 					if(dest==-1) 
 					{	
-						System.out.println("if(dest==-1) ");
-						List <node_data> shourtestWay= new LinkedList<node_data>();
-						if (this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src) == -1) // if there is no fruit on the ronot's edge neibers
-						{
-							int closeSrcEdgeFruit=this.gameAlgo.theClosetestFruitToRobot(this.gameAlgo.getGraph().getNode(src).getKey());
-							System.out.println(closeSrcEdgeFruit+"closeSrcEdgeFruit");
-							shourtestWay= this.gameAlgo.getShourtestPath(tempRobot.getSrc(), closeSrcEdgeFruit);
-							System.out.println("shourtestWay.size():  "+ shourtestWay.size());
-							dest =shourtestWay.get(1).getKey();	
-
-							this.gameAlgo.getRobotList().get(r_id).setDest(dest);
-						}
-						else // Ihave fruit on one of the edge that is my neiber
-						{
-							System.out.println("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
-							dest=this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src);	
-							System.out.println("DEST: "+dest);
-						}
-
+							this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
+							this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
+						
 					}
-
-					if( this.gameAlgo.getRobotList().size()>1)
-					{
-						System.out.println("this.gameAlgo.getRobotList().size()>1");
-						for (int k=0; k<this.gameAlgo.getRobotList().size()-1; k++)
-						{
-							if (this.gameAlgo.getRobotList().get(k).getDest()==this.gameAlgo.getRobotList().get(k+1).getDest()) // if to robot sent to the same dest
-							{
-								System.out.println("if dest are equls");
-								dest=this.gameAlgo.nextNodeRandomly(this.gameAlgo.getGraph(), this.gameAlgo.getRobotList().get(k+1).getSrc());
-								this.gameAlgo.getRobotList().get(k+1).setDest(dest);
-								this.gameAlgo.getGameService().chooseNextEdge(this.gameAlgo.getRobotList().get(k+1).getR_id(), dest);
-								this.gameAlgo.getGameService().move();
-							}
-						}
-					}
-					this.gameAlgo.getGameService().chooseNextEdge(r_id, dest);
-					this.gameAlgo.getGameService().move();
-
 				}
 				catch (JSONException e) { }
-			} 
+			}
 		}
+		this.gameAlgo.getGameService().move();
 	}
+	//						System.out.println("if(dest==-1) ");
+	//						List <node_data> shourtestWay= new LinkedList<node_data>();
+	//						if (this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src) == -1) // if there is no fruit on the ronot's edge neibers
+	//						{
+	//							int closeSrcEdgeFruit=this.gameAlgo.theClosetestFruitToRobot(this.gameAlgo.getGraph().getNode(src).getKey());
+	//							System.out.println(closeSrcEdgeFruit+"closeSrcEdgeFruit");
+	//							shourtestWay= this.gameAlgo.getShourtestPath(tempRobot.getSrc(), closeSrcEdgeFruit);
+	//							//							System.out.println("shourtestWay.size():  "+ shourtestWay.size());
+	//							//							System.out.println("shourtestWay: "+shourtestWay);
+	//							//							System.out.println("robosrc: "+ tempRobot.getSrc());
+	//							dest =shourtestWay.get(1).getKey();
+	//							this.gameAlgo.getRobotList().get(r_id).setDest(dest);
+	//						}
+	//						else // I have fruit on one of the edge that is my neiber
+	//						{
+	//							dest=this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src);	
+	//							System.out.println("DEST: "+dest);
+	//						}
+	//					}
+	//
+	//					if( this.gameAlgo.getRobotList().size()>1)
+	//					{
+	//						System.out.println("RobotList().size()>1");
+	//						for (int k=0; k<this.gameAlgo.getRobotList().size()-1; k++)
+	//						{
+	//							if (this.gameAlgo.getRobotList().get(k).getDest()==this.gameAlgo.getRobotList().get(k+1).getDest()) // if to robot sent to the same dest
+	//							{
+	//								System.out.println("if dest are equls");
+	//								dest=this.gameAlgo.nextNodeRandomly(this.gameAlgo.getGraph(), this.gameAlgo.getRobotList().get(k+1).getSrc());
+	//								this.gameAlgo.getRobotList().get(k+1).setDest(dest);
+	//								this.gameAlgo.getGameService().chooseNextEdge(this.gameAlgo.getRobotList().get(k+1).getR_id(), dest);
+	//								this.gameAlgo.getGameService().move();
+	//							}
+	//						}
+	//					}
+	//
+	//					//System.out.println("move in the end of the func - the dest: "+dest);
+	//					this.gameAlgo.getGameService().chooseNextEdge(r_id, dest);
+	//					this.gameAlgo.getGameService().move();
+	//
+	//
+	//				}
+	//				catch (JSONException e) { }
+	//			} 
+	//		}
+	//	}
 
 
 
@@ -171,21 +187,7 @@ public class AutoMyGameGui extends Thread
 	//		this.gameAlgo.getGameService().move();
 
 
-	private void clearTagEdge(DGraph graph) 
-	{
-		Iterator<node_data> itN = this.gameAlgo.getGraph().getV().iterator(); 
-		while (itN.hasNext()) 
-		{
-			node_data nd = itN.next();
-			Iterator<edge_data> itE = this.gameAlgo.getGraph().getE(nd.getKey()).iterator(); 
-			while (itE.hasNext()) 
-			{
-				edge_data ed = itE.next();
-				ed.setTag(0);
-			}
-		}
 
-	}
 
 	public void KMLclose() throws IOException {
 
@@ -265,6 +267,7 @@ public class AutoMyGameGui extends Thread
 			JFrame massegeJF = new JFrame();
 			try 
 			{
+				System.out.println(this.gameAlgo.getGameService().toString());
 				JOptionPane.showMessageDialog(massegeJF, "Game Over - Grade:"+this.gameAlgo.getGradGame());
 
 			} 

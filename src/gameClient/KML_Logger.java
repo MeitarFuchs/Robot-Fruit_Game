@@ -68,6 +68,7 @@ public class KML_Logger {
 		this.strBuilder.append("        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
 		this.strBuilder.append( "      </IconStyle>\r\n");
 		this.strBuilder.append(  "    </Style>");
+		
 
 		this.strBuilder.append(     " <Style id=\"banana\">\r\n" );
 		this.strBuilder.append(    "      <IconStyle>\r\n" );

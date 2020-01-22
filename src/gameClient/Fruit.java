@@ -1,6 +1,4 @@
 package gameClient;
-import static org.junit.Assert.fail;
-
 /**
  * this class build the fruit of the game (automacally and manual both)
  * the fruit is consists few variables , he have type (banana or apple )
@@ -15,8 +13,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import Server.Game_Server;
-import Server.game_service;
 import utils.Point3D;
 
 public class Fruit 
