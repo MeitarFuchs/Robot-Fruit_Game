@@ -77,7 +77,7 @@ public class AutoMyGameGui extends Thread
 		List<String> log = this.gameAlgo.getGameService().move();
 		if(log!=null) 
 		{
-			long time = this.gameAlgo.getGameService().timeToEnd();
+			//long time = this.gameAlgo.getGameService().timeToEnd();
 			for (int i = 0; i <log.size(); i++) 
 			{
 				String robotSrting = log.get(i);
@@ -100,10 +100,12 @@ public class AutoMyGameGui extends Thread
 						
 					}
 				}
-				catch (JSONException e) { }
+				catch (JSONException e) {
+					System.out.println("catch move robot auto");
+				}
 			}
 		}
-		this.gameAlgo.getGameService().move();
+		//this.gameAlgo.getGameService().move();
 	}
 	//						System.out.println("if(dest==-1) ");
 	//						List <node_data> shourtestWay= new LinkedList<node_data>();
@@ -227,38 +229,52 @@ public class AutoMyGameGui extends Thread
 			}
 		}
 	}
+	
+	long start = System.currentTimeMillis();
 	public void run() 
 	{
 		while(this.gameAlgo.getGameService().isRunning())
 		{
-			try {
-				updateFruits();
-				updateRobots();
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+
+//			try {
+//				updateFruits();
+//				updateRobots();
+//			} catch (JSONException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 			this.gameAlgo.setRobotList(this.gameAlgo.initRobots(this.gameAlgo.getGameService()));
 			this.gameAlgo.setFruitList(this.gameAlgo.initFruit(this.gameAlgo.getGameService()));
+			GuiStd.paintFruit(this.gameAlgo.getFruitList());
+
 			if (this.automatic)
 			{// this.manual==true
 				try 
 				{
-					moveRobotAuto();
+					if(System.currentTimeMillis() - start > 1000/10)
+					{	
+						moveRobotAuto();
+						start = System.currentTimeMillis();
+						
+						GuiStd.paintGraph(this.gameAlgo.getGraph());
+						GuiStd.paintFruit(this.gameAlgo.getFruitList());
+						GuiStd.paintRobots(this.gameAlgo.getRobotList());
+						StdDraw.show();
+						
+						updateFruits();
+						updateRobots();
+					}
 				} 
 				catch (JSONException e) {	e.printStackTrace();}
 			}
 
-			GuiStd.paintGraph(this.gameAlgo.getGraph());
-			GuiStd.paintFruit(this.gameAlgo.getFruitList());
-			GuiStd.paintRobots(this.gameAlgo.getRobotList());
-			StdDraw.show();
 
-			try
-			{
-				sleep(10);
-			} 
-			catch (InterruptedException e) {e.printStackTrace();}
+
+//			try
+//			{
+//				sleep(15);
+//			} 
+//			catch (InterruptedException e) {e.printStackTrace();}
 		}
 
 		//**********Grade**********

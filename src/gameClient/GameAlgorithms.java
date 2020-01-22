@@ -33,7 +33,7 @@ public class GameAlgorithms
 
 	private ArrayList<Fruit> fruitList = new ArrayList<Fruit>(); 
 	private ArrayList<Robot> robotList ;//= new ArrayList<Robot>()
-	
+
 	private Queue<Integer> qWay=new LinkedList<Integer>() ;
 
 	public GameAlgorithms() 
@@ -386,11 +386,11 @@ public class GameAlgorithms
 
 	public int queueLast3 (NodeData n) 
 	{
-		if (qWay==null) {
-			this.qWay.add(n.getKey());		}
-		if (qWay.size()<3) {
-			this.qWay.add(n.getKey());
+		if (qWay==null || qWay.size()<3) {
+
+			this.qWay.add(n.getKey());		
 		}
+
 		else {
 			this.qWay.remove();
 			this.qWay.add(n.getKey());
@@ -578,7 +578,7 @@ public class GameAlgorithms
 				}
 			}			
 		}
-		System.out.println("edgeFruit src: "+edgeFruit.getSrc()+" daest: "+edgeFruit.getDest());
+		System.out.println("edgeFruit src: "+edgeFruit.getSrc()+" dest: "+edgeFruit.getDest());
 		return edgeFruit;
 	}
 
@@ -609,43 +609,103 @@ public class GameAlgorithms
 		}
 
 	}
-	public  void bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
+	public void bestNextNode (DGraph dg, Robot currRobot) //node_data srcNodeRobot
 	{
 		this.robotList= initRobots(this.game);
 		Graph_Algo Ag = new Graph_Algo();
 		Ag.init(dg);
-		double tempDis=0;
-		List <edge_data> edgeOfFruits= getListOfEdgeWithFruit();
-		edge_data minDestEdge = new EdgeData();
-		double minDis = Integer.MAX_VALUE;
+		//double tempDis=0;
+		int dest;
+		//List <edge_data> edgeOfFruits= getListOfEdgeWithFruit();
+		int last1=0;
+		//double minDis = Integer.MAX_VALUE;
+		//		for (edge_data ed : edgeOfFruits) 
+		//		{
+		//			if (ed.getTag()!=1)
+		//			{	         
+		//				tempDis = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
+		//				System.out.println("tempdis: "+ tempDis);
+		//				if (tempDis<minDis) 
+		//				{
+		//					minDis= tempDis;
+		//					minDestEdge= ed;
+		//				}
+		//			}
+		//		}theClosetestFruitToRobot
+		int closeSrcEdgeFruit=this.theClosetestFruitToRobot(this.getGraph().getNode(currRobot.getSrc()).getKey());			
+		List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), closeSrcEdgeFruit);
 
-		for (edge_data ed : edgeOfFruits) 
+		System.out.println("closeSrcEdgeFruit: "+closeSrcEdgeFruit);
+		if (shortWay.size()==1)
+			dest = shortWay.get(0).getKey();
+		else
+			dest = shortWay.get(1).getKey();
+
+		//List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
+		//shortWay.add(this.graph.getNode(minDestEdge.getDest()));
+		//int last= queueLast3((NodeData) shortWay.get(1));
+		//System.out.println(shortWay.get(1).getKey());
+		//		if(currRobot.getSrc()==7)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),6);
+
+		//		if(currRobot.getSrc()==0)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),10);
+
+		if  (this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc()) != -1) 
 		{
-			if (ed.getTag()!=1)
-			{	         
-				tempDis = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
-				if (tempDis<minDis) 
-				{
-					minDis= tempDis;
-					minDestEdge= ed;
+			dest=this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc());
+			this.game.chooseNextEdge(currRobot.getR_id(),dest);
+
+		}
+		//		else if(currRobot.getSrc()==9)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),10);
+		//		if (MyGameGUI.==0) 
+		//		{
+		else if(currRobot.getSrc()==7)
+			this.game.chooseNextEdge(currRobot.getR_id(),6);
+		else if(currRobot.getSrc()==0)
+			this.game.chooseNextEdge(currRobot.getR_id(),10);
+		//		else if(currRobot.getSrc()==10)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),9);
+		//		else if(currRobot.getSrc()==9)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),8);
+		//		
+		else {
+
+			this.game.chooseNextEdge(currRobot.getR_id(),dest);
+		}
+		if ( shortWay.size()>1) {
+			if ((last1 == shortWay.get(1).getKey()) )
+			{
+				if ( (shortWay.size()>2 )&& (this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc()) != -1)) {
+					dest=this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc());
+					this.game.chooseNextEdge(currRobot.getR_id(),dest);
 				}
+				else
+					dest=nextNodeRandomly(graph, currRobot.getSrc());
+				System.out.println("dest random : "+ dest);
+				//			if (dest==last1) {
+				//				dest=nextNodeRandomly(graph, currRobot.getSrc());
+				//			}
+				//dest =shortWay.get(1).getKey();
+
+				this.game.chooseNextEdge(currRobot.getR_id(), dest);
+				//this.game.move();
 			}
 		}
-		List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
-		shortWay.add(this.graph.getNode(minDestEdge.getDest()));
-		int last= queueLast3((NodeData) shortWay.get(1));
-		if (last==shortWay.get(1).getKey())
+		else 
 		{
-			int dest=nextNodeRandomly(graph, currRobot.getSrc());
+			//if (shortWay.size()==1)
 			this.game.chooseNextEdge(currRobot.getR_id(), dest);
-			this.game.move();
+			//			else
+			//				this.game.chooseNextEdge(currRobot.getR_id(), shortWay.get(1).getKey());
+			//this.game.move();
+		}
 
-		}
-		else
-		{
-			this.game.chooseNextEdge(currRobot.getR_id(), shortWay.get(1).getKey());
-			this.game.move();
-		}
+
+		last1= queueLast3((NodeData) this.getGraph().getNode(dest));
+		this.game.move();
+
 		//		if ( tempDis==0)//minDestEdge.getSrc() == currRobot.getSrc()
 		//		{
 		//			System.out.println("tempDis==0");

@@ -6,7 +6,8 @@ import java.io.IOException;
  * ask the user which level he want to start and which game he want to play (automatic or manual)
  * there is also functions to play the manual game: 
  * INIT to get the number of the robots in the game from json  and their information to build them
- * we have also 2 function to move the robot manual, one who check the mouse clicks and sets the new location of the robot in the manual game mode.  
+ * we have also 2 function to 
+ the robot manual, one who check the mouse clicks and sets the new location of the robot in the manual game mode.  
  * and the second move the robot to him new destination.
  * 
  */
@@ -41,6 +42,7 @@ public class MyGameGUI extends Thread
 	private boolean manual=false;
 	private node_data nodeClick;
 	private KML_Logger kml = new KML_Logger();
+	private int level=0;;
 	 
 	/**
 	 *Default constructor.(start the game)
@@ -51,8 +53,8 @@ public class MyGameGUI extends Thread
 		Object selectedNumLevel = JOptionPane.showInputDialog(null, "Choosenum of game", "Message", JOptionPane.INFORMATION_MESSAGE, null, choiceNumLevel, choiceNumLevel[0]);
 		int id = 315325605;
 		Game_Server.login(id);
-		int level= Integer.parseInt((String) selectedNumLevel);
-		this.gameAlgo.setGameService(Game_Server.getServer(level));		
+		this.level= Integer.parseInt((String) selectedNumLevel);
+		this.gameAlgo.setGameService(Game_Server.getServer(this.level));		
 
 		String[] chooseTypeGame = {"Automatic game","Manual game"};
 		Object typeSelectedGame = JOptionPane.showInputDialog(null, "Choose game mode", "Message", JOptionPane.INFORMATION_MESSAGE, null, chooseTypeGame, chooseTypeGame[0]);
@@ -113,6 +115,10 @@ public class MyGameGUI extends Thread
 			}
 	}
 
+	public int getLevel() 
+	{
+		return this.level;
+	}
 	/**
 	 * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
 	 */
@@ -332,8 +338,11 @@ public class MyGameGUI extends Thread
 				e.printStackTrace();
 			}
 		}
-		try {
+		try 
+		{
 			KMLclose();
+			String remark = this.kml.toString();
+			this.gameAlgo.getGameService().sendKML(remark);
 		}
 		catch (IOException e) 
 		{
