@@ -9,7 +9,6 @@ import gui.GUI_JFRAME;
 import utils.Point3D;
 
 class GuiJframeTest {
-
 	@Test
 	void GUITest() 
 	{
@@ -49,10 +48,6 @@ class GuiJframeTest {
 		GUI_JFRAME GuiG= new GUI_JFRAME(Dgraph);
 		GuiG.setVisible(true);
 
-//		Dgraph.removeNode(n6.getKey());
-//		GuiG.repaint();
-//		Dgraph.removeEdge(n5.getKey(), n3.getKey());
-//		GuiG.repaint();
 
 	}
 }

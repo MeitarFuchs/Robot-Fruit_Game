@@ -85,7 +85,6 @@ class RobotTest {
 		{
 			fail();
 		}
-		System.out.println("lll"+currFruitInLIst.getValue());
 		if (currFruitInLIst.getValue()!= 5.0)
 		{
 			fail();
@@ -98,6 +97,7 @@ class RobotTest {
 		}
 
 	}
+	
 
 	@Test
 	public void initFromlineTest() 
@@ -105,20 +105,16 @@ class RobotTest {
 		game_service game = Game_Server.getServer(1);
 		List <String> frStrings = game.getFruits();
 		String str = frStrings.get(0);
-		System.out.println(str);
 		Fruit currFruit =new Fruit();
 
 		try 
 		{
 			currFruit=currFruit.initFromline(str);
 
-			System.out.println(currFruit.getType());
 			if (currFruit.getType() != -1)
 			{
-				System.out.println(currFruit.getType());
 				fail();
 			}
-			System.out.println(currFruit.getValue());
 
 			if (currFruit.getValue()!=5.0)
 			{
@@ -126,9 +122,7 @@ class RobotTest {
 			}
 
 			Point3D p=new Point3D(35.197656770719604,32.10191878639921,0.0);
-			System.out.println(currFruit.getLocation().toString());
-			System.out.println(p.toString());
-
+		
 			if (!currFruit.getLocation().toString().equals(p.toString()))
 			{
 				fail();

@@ -17,11 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import Server.game_service;
-import algorithms.Graph_Algo;
 import dataStructure.DGraph;
-import dataStructure.EdgeData;
-import dataStructure.edge_data;
-import dataStructure.node_data;
 import gui.GameGui_Std;
 import utils.Point3D;
 import utils.StdDraw;
@@ -34,7 +30,6 @@ public class AutoMyGameGui extends Thread
 	private static int numRobots = 0;
 	private KML_Logger kml = new KML_Logger();
 	private Queue<Integer> q=new LinkedList<>();
-
 
 
 	/**
@@ -68,99 +63,41 @@ public class AutoMyGameGui extends Thread
 		this.start();
 	}
 
-	public int nextNodeTheBest(Robot robot, DGraph dg) 
-	{
-		Graph_Algo Ag = new Graph_Algo();
-		Ag.init(dg);
-		double temp;
-		double shortestDist = Double.MAX_VALUE;
-		List<Robot> robotList = this.gameAlgo.getRobotList();
-		List<node_data> shortest = new ArrayList<>();
-		edge_data fruitEdge = new EdgeData();
-		Fruit f = new Fruit();
-		int robDest = robot.getDest();
-		if (robot.getDest() == -1) 
-		{
-			for (Fruit fruit : this.gameAlgo.getFruitList()) 
-			{
-				if (fruit.getTag() == 0) 
-				{
-					fruitEdge = this.gameAlgo.theEdgeOfTheFruit(fruit, dg);
-					temp = Ag.shortestPathDist(robot.getSrc(), fruitEdge.getSrc());
-					if (robot.getSrc() == fruitEdge.getSrc()) {
-						robDest = fruitEdge.getDest();
-						fruit.setTag(1);
-						robot.setDest(robDest);
-						checkNode(robDest);
-						return robDest;
-					}
-					if (temp < shortestDist) {
-						shortestDist = temp;
-						shortest = Ag.shortestPath(robot.getSrc(), fruitEdge.getSrc());
-						f = fruit;
-					}
-				}
-			}
-			robDest = shortest.get(1).getKey();
-		}
-		f.setTag(1);
-		robot.setDest(robDest);
-		checkNode(robDest);
-		return robDest;
-	}
-
-	public void checkNode(int i) 
-	{
-		if (!q.isEmpty())
-			this.q.remove();
-		this.q.add(i);
-	}
 	/**
 	 * This function move the robot to his destanetion.
 	 */
 	private void moveRobotAuto() throws JSONException //move Robot Automaticly
 	{
-		int robotDest = -1;
-		for (Robot robot : this.gameAlgo.getRobotList())
+		List<String> log = this.gameAlgo.getGameService().move();
+		if(log!=null) 
 		{
-			robotDest = nextNodeTheBest(robot, this.gameAlgo.getGraph());
-			this.gameAlgo.getGameService().chooseNextEdge(robot.getR_id(), robotDest);
-			this.gameAlgo.getGameService().move();
-			System.out.println("Turn to node: " + robotDest);
-		}
+			//long time = this.gameAlgo.getGameService().timeToEnd();
+			for (int i = 0; i <log.size(); i++) 
+			{
+				String robotSrting = log.get(i);
+				try 
+				{
+					JSONObject line = new JSONObject(robotSrting);
+					JSONObject currRobotStr = line.getJSONObject("Robot");
+					int r_id = currRobotStr.getInt("id");
+					int src = currRobotStr.getInt("src");
+					int dest = currRobotStr.getInt("dest");
+					String pointString=currRobotStr.getString("pos");
+					Point3D point = new Point3D(pointString);
 
-		//		List<String> log = this.gameAlgo.getGameService().move();
-		//		if(log!=null) 
-		//		{
-		//			//long time = this.gameAlgo.getGameService().timeToEnd();
-		//			for (int i = 0; i <log.size(); i++) 
-		//			{
-		//				String robotSrting = log.get(i);
-		//				try 
-		//				{
-		//					JSONObject line = new JSONObject(robotSrting);
-		//					JSONObject currRobotStr = line.getJSONObject("Robot");
-		//					int r_id = currRobotStr.getInt("id");
-		//					int src = currRobotStr.getInt("src");
-		//					int dest = currRobotStr.getInt("dest");
-		//					String pointString=currRobotStr.getString("pos");
-		//					Point3D point = new Point3D(pointString);
-		//
-		//					Robot tempRobot=new Robot(r_id, src, dest,point);
-		//
-		//					if(dest==-1) 
-		//					{	
-		//						this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
-		//						this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
-		//
-		//					}
-		//				}
-		//				catch (JSONException e) {
-		//					System.out.println("catch move robot auto");
-		//				}
-		//			}
-		//		}
-		//		//this.gameAlgo.getGameService().move();
+					Robot tempRobot=new Robot(r_id, src, dest,point);
+
+					if(dest==-1) 
+					{	
+						this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
+						this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
+					}
+				}
+				catch (JSONException e) {
+					System.out.println("catch move robot auto");
+				}
+			}
+		}
 	}
 
 	/**
@@ -206,7 +143,6 @@ public class AutoMyGameGui extends Thread
 			}
 		}
 	}
-
 	long start = System.currentTimeMillis();
 	/**
 	 * this method Powered by the thread and call the function to move the robot
@@ -215,23 +151,15 @@ public class AutoMyGameGui extends Thread
 	{
 		while(this.gameAlgo.getGameService().isRunning())
 		{
-
-			//			try {
-			//				updateFruits();
-			//				updateRobots();
-			//			} catch (JSONException e1) {
-			//				// TODO Auto-generated catch block
-			//				e1.printStackTrace();
-			//			}
 			this.gameAlgo.setRobotList(this.gameAlgo.initRobots(this.gameAlgo.getGameService()));
 			this.gameAlgo.setFruitList(this.gameAlgo.initFruit(this.gameAlgo.getGameService()));
 			GuiStd.paintFruit(this.gameAlgo.getFruitList());
 
 			if (this.automatic)
-			{// this.automatic==true
+			{// this.manual==true
 				try 
 				{
-					if((System.currentTimeMillis() - start) > 1000/9)
+					if((System.currentTimeMillis() - start) > 1000/9)			//down the moves	
 					{	
 						moveRobotAuto();
 						start = System.currentTimeMillis();
@@ -246,14 +174,11 @@ public class AutoMyGameGui extends Thread
 				} 
 				catch (JSONException e) {	e.printStackTrace();}
 			}
-
-
-
-			//			try
-			//			{
-			//				sleep(10);
-			//			} 
-			//			catch (InterruptedException e) {e.printStackTrace();}
+			try
+			{
+				sleep(10);
+			} 
+			catch (InterruptedException e) {e.printStackTrace();}
 		}
 		try {
 			MyGameGUI.grade=(int) this.gameAlgo.getGradGame();
@@ -278,7 +203,6 @@ public class AutoMyGameGui extends Thread
 		//		}
 		try {
 			KMLclose();
-			System.out.println("back from close kml");
 			String remark = this.kml.toString();
 			this.gameAlgo.getGameService().sendKML(remark);
 
@@ -323,6 +247,7 @@ public class AutoMyGameGui extends Thread
 		Robot currRobot= new Robot(id,src,dest,currPoint,value,speed);
 		return currRobot;
 	}
+	
 	/**
 	 * prints a clock and the score on the screen.
 	 */

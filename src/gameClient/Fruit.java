@@ -20,7 +20,6 @@ public class Fruit
 	private int type;
 	private double value;
 	private Point3D location;
-	private int tag;
 
 	public int getType() {
 		return this.type;
@@ -28,13 +27,6 @@ public class Fruit
 
 	public void setType(int type) {
 		this.type = type;
-	}
-	public int getTag() {
-		return this.tag;
-	}
-
-	public void setTag(int tag) {
-		this.tag = tag;
 	}
 
 	public double getValue() {
@@ -60,7 +52,6 @@ public class Fruit
 		this.type=-1; // to check what is the deafult type
 		this.value=0;
 		this.location=null;
-		this.tag=0;
 
 	}
 
@@ -69,7 +60,6 @@ public class Fruit
 		this.type=type;
 		this.value=value;
 		this.location=location;	
-		this.tag=0;
 	}
 	/**
 	 * This function adding all the fruit list from the service list information
@@ -109,7 +99,7 @@ public class Fruit
 			String locationStr = fruit.getString("pos");
 			Point3D location = new Point3D(locationStr);
 			currFruit = new Fruit( type,value, location);
-			currFruit.setTag(0);
+
 		} 
 		catch (Exception E) 
 		{

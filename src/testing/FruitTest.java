@@ -17,7 +17,6 @@ class FruitTest {
 
 	Point3D point = new Point3D(1,6,0);
 	Fruit fruit = new Fruit(1,6,point);
-
 	@Test
 	void getTypeTest() {
 		if (fruit.getType()!=1)
@@ -77,7 +76,6 @@ class FruitTest {
 			{
 				fail();
 			}
-			System.out.println("lll"+currFruitInLIst.getValue());
 			if (currFruitInLIst.getValue()!= 5.0)
 			{
 				fail();
@@ -97,20 +95,16 @@ class FruitTest {
 		game_service game = Game_Server.getServer(1);
 		List <String> frStrings = game.getFruits();
 		String str = frStrings.get(0);
-		System.out.println(str);
 		Fruit currFruit =new Fruit();
 
 		try 
 		{
 			currFruit=currFruit.initFromline(str);
 			
-			System.out.println(currFruit.getType());
 			if (currFruit.getType() != -1)
 			{
-				System.out.println(currFruit.getType());
 				fail();
 			}
-			System.out.println(currFruit.getValue());
 			
 			if (currFruit.getValue()!=5.0)
 			{
@@ -118,8 +112,6 @@ class FruitTest {
 			}
 			
 			Point3D p=new Point3D(35.197656770719604,32.10191878639921,0.0);
-			System.out.println(currFruit.getLocation().toString());
-			System.out.println(p.toString());
 			
 			if (!currFruit.getLocation().toString().equals(p.toString()))
 			{

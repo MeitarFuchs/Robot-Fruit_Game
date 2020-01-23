@@ -1,5 +1,5 @@
 package gameClient;
-import java.io.IOException;
+
 /**
  * this class represent a game GUI .
  * there is a constructor who used for starting the game ,
@@ -11,13 +11,17 @@ import java.io.IOException;
  * and the second move the robot to him new destination.
  * 
  */
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import Server.Game_Server;
 import dataStructure.DGraph;
 import dataStructure.NodeData;
@@ -29,7 +33,6 @@ import utils.StdDraw;
 
 public class MyGameGUI extends Thread
 {
-
 	private GameAlgorithms gameAlgo=new GameAlgorithms();
 	private GameGui_Std GuiStd= new GameGui_Std();
 	private static int numRobots = 0;
@@ -65,6 +68,7 @@ public class MyGameGUI extends Thread
 		{
 			this.automatic=true;
 			AutoMyGameGui autoGame=new AutoMyGameGui(this.gameAlgo.getGameService());
+
 		}
 		else 
 			if (typeSelectedGame=="Manual game")
@@ -81,7 +85,7 @@ public class MyGameGUI extends Thread
 				numRobots= gameAlgo.howManyRobots(gameAlgo.getGameService());
 				JOptionPane.showMessageDialog(null, "you need to put "+numRobots+" robots.");
 
-				//add the robots in their first location that the user choosed
+				///////////////add the robots in their first location that the user choosed
 				int count=0;
 				while (count<numRobots)
 				{
@@ -330,7 +334,6 @@ public class MyGameGUI extends Thread
 		//**********Grade**********
 		if (!this.gameAlgo.getGameService().isRunning())
 		{
-			System.out.println(this.gameAlgo.getGameService().toString());
 			JFrame massegeJF = new JFrame();
 			try 
 			{
@@ -344,9 +347,7 @@ public class MyGameGUI extends Thread
 		try 
 		{
 			KMLclose();
-//			String remark = this.kml.toString();
-//			this.gameAlgo.getGameService().sendKML(remark);
-//			SimpleDB.printLog();
+
 		}
 		catch (IOException e) 
 		{

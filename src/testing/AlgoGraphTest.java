@@ -17,6 +17,7 @@ import utils.Point3D;
 class AlgoGraphTest 
 {
 	@Test
+	
 	public void initGTest() 
 	{
 		DGraph Dg = new DGraph();
@@ -219,7 +220,6 @@ class AlgoGraphTest
 
 		Graph_Algo Ag = new Graph_Algo(Dg);
 		Ag.init(Dg);
-		System.out.println("Ag.shortestPathDist(5,3)" +Ag.shortestPathDist(5,3));
 		if (!Ag.shortestPath(5,3).isEmpty())
 		{fail();}
 

@@ -23,6 +23,7 @@ public class KML_Logger {
 	public  KML_Logger()
 	{
 		this.strBuilder = new StringBuilder();
+		this.level=MyGameGUI.level;
 		makeKML();
 	}
 	/**
@@ -52,6 +53,7 @@ public class KML_Logger {
 		this.strBuilder.append( "        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n");
 		this.strBuilder.append(  "      </IconStyle>\r\n");
 		this.strBuilder.append( "    </Style>" );
+		
 		robotFruit_Kml();
 	}
 
@@ -123,7 +125,7 @@ public class KML_Logger {
 	public void save_KML() throws IOException {
 		try {
 
-			File f=new File(this.level+".kml");
+			File f=new File(MyGameGUI.level+".kml");
 			PrintWriter pWriter=new PrintWriter(f);
 			pWriter.write( this.strBuilder.toString());
 			pWriter.close();
