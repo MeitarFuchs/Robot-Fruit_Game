@@ -251,11 +251,10 @@ public class AutoMyGameGui extends Thread
 			{// this.manual==true
 				try 
 				{
-					if(System.currentTimeMillis() - start > 1000/10)
+					if((System.currentTimeMillis() - start) > 1000/11)
 					{	
 						moveRobotAuto();
 						start = System.currentTimeMillis();
-						
 						GuiStd.paintGraph(this.gameAlgo.getGraph());
 						GuiStd.paintFruit(this.gameAlgo.getFruitList());
 						GuiStd.paintRobots(this.gameAlgo.getRobotList());
@@ -270,13 +269,13 @@ public class AutoMyGameGui extends Thread
 
 
 
-//			try
-//			{
-//				sleep(15);
-//			} 
-//			catch (InterruptedException e) {e.printStackTrace();}
+			try
+			{
+				sleep(15);
+			} 
+			catch (InterruptedException e) {e.printStackTrace();}
 		}
-
+		
 		//**********Grade**********
 		if (!this.gameAlgo.getGameService().isRunning())
 		{
@@ -296,9 +295,10 @@ public class AutoMyGameGui extends Thread
 			KMLclose();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
 	}
+	
 
+	}
 	/**
 	 * This function adding all the robot list from the service list information ,to the list of all the exist robots in Our game.
 	 */
