@@ -42,7 +42,9 @@ public class MyGameGUI extends Thread
 	private boolean manual=false;
 	private node_data nodeClick;
 	private KML_Logger kml = new KML_Logger();
-	private int level=0;;
+	public static int level=0;
+	public static int idStudent;
+	public static int grade;
 	 
 	/**
 	 *Default constructor.(start the game)
@@ -52,6 +54,7 @@ public class MyGameGUI extends Thread
 		String[] choiceNumLevel = {"-31","0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 		Object selectedNumLevel = JOptionPane.showInputDialog(null, "Choosenum of game", "Message", JOptionPane.INFORMATION_MESSAGE, null, choiceNumLevel, choiceNumLevel[0]);
 		int id = 315325605;
+		idStudent=315325605;
 		Game_Server.login(id);
 		this.level= Integer.parseInt((String) selectedNumLevel);
 		this.gameAlgo.setGameService(Game_Server.getServer(this.level));		
@@ -345,8 +348,9 @@ public class MyGameGUI extends Thread
 		try 
 		{
 			KMLclose();
-			String remark = this.kml.toString();
-			this.gameAlgo.getGameService().sendKML(remark);
+//			String remark = this.kml.toString();
+//			this.gameAlgo.getGameService().sendKML(remark);
+//			SimpleDB.printLog();
 		}
 		catch (IOException e) 
 		{

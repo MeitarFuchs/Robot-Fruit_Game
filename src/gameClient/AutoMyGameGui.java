@@ -200,25 +200,39 @@ public class AutoMyGameGui extends Thread
 			//			} 
 			//			catch (InterruptedException e) {e.printStackTrace();}
 		}
-
-		//**********Grade**********
-		if (!this.gameAlgo.getGameService().isRunning())
-		{
-			JFrame massegeJF = new JFrame();
-			try 
-			{
-				System.out.println(this.gameAlgo.getGameService().toString());
-				JOptionPane.showMessageDialog(massegeJF, "Game Over - Grade:"+this.gameAlgo.getGradGame());
-
-			} 
-			catch (JSONException e) 
-			{
-				e.printStackTrace();
-			}
+		try {
+			MyGameGUI.grade=(int) this.gameAlgo.getGradGame();
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+//		//**********Grade**********
+//		if (!this.gameAlgo.getGameService().isRunning())
+//		{
+//			JFrame massegeJF = new JFrame();
+//			try 
+//			{
+//				System.out.println(this.gameAlgo.getGameService().toString());
+//				JOptionPane.showMessageDialog(massegeJF, "Game Over - Grade:"+this.gameAlgo.getGradGame());
+//				MyGameGUI.grade=(int) this.gameAlgo.getGradGame();
+//			} 
+//			catch (JSONException e) 
+//			{
+//				e.printStackTrace();
+//			}
+//		}
 		try {
 			KMLclose();
+System.out.println("back from close kml");
+			String remark = this.kml.toString();
+			this.gameAlgo.getGameService().sendKML(remark);
+
+			SimpleDB.printLog();
+			
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
