@@ -183,6 +183,7 @@ public class GameAlgorithms
 					Point3D cuurntPoint = new Point3D(xP,yP,zP);
 
 					Fruit newFruit = new Fruit(type ,value ,cuurntPoint); //create the new fruit
+					newFruit.setTag(0);
 					newfruitList.add(i, newFruit); //add to the this list
 
 

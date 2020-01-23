@@ -14,13 +14,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import Server.Game_Server;
 import dataStructure.DGraph;
 import dataStructure.NodeData;
@@ -68,7 +65,6 @@ public class MyGameGUI extends Thread
 		{
 			this.automatic=true;
 			AutoMyGameGui autoGame=new AutoMyGameGui(this.gameAlgo.getGameService());
-
 		}
 		else 
 			if (typeSelectedGame=="Manual game")
