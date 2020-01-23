@@ -113,6 +113,7 @@ public class Robot
 		String ans="id: "+this.r_id+" src:  "+this.src+" dest:  "+this.dest+" LOC:  "+this.location+" value:  "+this.value+" speed:  "+this.speed;
 		return ans ;
 	}
+	
 //	/**
 //	 * this method check how many robot we have in the string of the level she get
 //	 * @param s the string of the level
@@ -126,6 +127,7 @@ public class Robot
 //		int numOfRobots = robots.getInt("robots");
 //		return numOfRobots;
 //	}
+	
 	/**
 	 * this method build a list of robot that we have in the game with the llist she get
 	 * @param strList a list of string of robots

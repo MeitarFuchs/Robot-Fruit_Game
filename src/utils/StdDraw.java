@@ -245,7 +245,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 
 	
 	// singleton pattern: client can't instantiate
-	private StdDraw() { }
+	public StdDraw() { }
 
 
 	// static initializer

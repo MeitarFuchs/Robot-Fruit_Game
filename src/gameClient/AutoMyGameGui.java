@@ -95,9 +95,9 @@ public class AutoMyGameGui extends Thread
 
 					if(dest==-1) 
 					{	
-							this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
-							this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
-						
+						this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
+						this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
+
 					}
 				}
 				catch (JSONException e) {
@@ -229,20 +229,20 @@ public class AutoMyGameGui extends Thread
 			}
 		}
 	}
-	
+
 	long start = System.currentTimeMillis();
 	public void run() 
 	{
 		while(this.gameAlgo.getGameService().isRunning())
 		{
 
-//			try {
-//				updateFruits();
-//				updateRobots();
-//			} catch (JSONException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
+			//			try {
+			//				updateFruits();
+			//				updateRobots();
+			//			} catch (JSONException e1) {
+			//				// TODO Auto-generated catch block
+			//				e1.printStackTrace();
+			//			}
 			this.gameAlgo.setRobotList(this.gameAlgo.initRobots(this.gameAlgo.getGameService()));
 			this.gameAlgo.setFruitList(this.gameAlgo.initFruit(this.gameAlgo.getGameService()));
 			GuiStd.paintFruit(this.gameAlgo.getFruitList());
@@ -259,7 +259,7 @@ public class AutoMyGameGui extends Thread
 						GuiStd.paintFruit(this.gameAlgo.getFruitList());
 						GuiStd.paintRobots(this.gameAlgo.getRobotList());
 						StdDraw.show();
-						
+
 						updateFruits();
 						updateRobots();
 					}
@@ -271,32 +271,40 @@ public class AutoMyGameGui extends Thread
 
 			try
 			{
-				sleep(15);
+				sleep(10);
 			} 
 			catch (InterruptedException e) {e.printStackTrace();}
 		}
-		
-		//**********Grade**********
-		if (!this.gameAlgo.getGameService().isRunning())
-		{
-			JFrame massegeJF = new JFrame();
-			try 
-			{
-				System.out.println(this.gameAlgo.getGameService().toString());
-				JOptionPane.showMessageDialog(massegeJF, "Game Over - Grade:"+this.gameAlgo.getGradGame());
 
-			} 
-			catch (JSONException e) 
-			{
-				e.printStackTrace();
-			}
-		}
 		try {
-			KMLclose();
-		} catch (IOException e) {
+			MyGameGUI.grade=(int) this.gameAlgo.getGradGame();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-	}
-	
+		}
+//		//**********Grade**********
+//		if (!this.gameAlgo.getGameService().isRunning())
+//		{
+//			JFrame massegeJF = new JFrame();
+//			try 
+//			{
+//				System.out.println(this.gameAlgo.getGameService().toString());
+//				JOptionPane.showMessageDialog(massegeJF, "Game Over - Grade:"+this.gameAlgo.getGradGame());
+//
+//
+//			} 
+//			catch (JSONException e) 
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		try {
+//			KMLclose();
+//		} catch (IOException e) 
+//		{
+//			e.printStackTrace();
+//		}
+
 
 	}
 	/**

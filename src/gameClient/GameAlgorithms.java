@@ -669,22 +669,22 @@ public class GameAlgorithms
 			else
 				dest = shortWay.get(1).getKey(); // defult dest
 
-//			if ( shortWay.size() > 1) 
-//			{
+			//			if ( shortWay.size() > 1) 
+			//			{
 
-				last1= queueLast3((NodeData) this.getGraph().getNode(dest));
+			last1= queueLast3((NodeData) this.getGraph().getNode(dest));
 
-				if ((last1 == shortWay.get(1).getKey()) ) 
+			if ((last1 == shortWay.get(1).getKey()) ) 
+			{
+				dest=nextNodeRandomly(graph, currRobot.getSrc());
+				while(dest==shortWay.get(1).getKey()) 
 				{
 					dest=nextNodeRandomly(graph, currRobot.getSrc());
-					while(dest==shortWay.get(1).getKey()) 
-					{
-						dest=nextNodeRandomly(graph, currRobot.getSrc());
-					}
-
-					this.game.chooseNextEdge(currRobot.getR_id(), dest);
-
 				}
+
+				this.game.chooseNextEdge(currRobot.getR_id(), dest);
+
+			}
 
 			//}// end  if-shortWay.size() > 1
 		}
@@ -726,3 +726,14 @@ public class GameAlgorithms
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
