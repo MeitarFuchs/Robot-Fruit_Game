@@ -49,7 +49,7 @@ public class MyGameGUI extends Thread
 	 */
 	public MyGameGUI() throws JSONException 
 	{		
-		String[] choiceNumLevel = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+		String[] choiceNumLevel = {"-31","0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 		Object selectedNumLevel = JOptionPane.showInputDialog(null, "Choosenum of game", "Message", JOptionPane.INFORMATION_MESSAGE, null, choiceNumLevel, choiceNumLevel[0]);
 		int id = 315325605;
 		Game_Server.login(id);
@@ -275,13 +275,17 @@ public class MyGameGUI extends Thread
 			}
 		}
 	}
-
+/**
+ * close the kml file
+ * @throws IOException
+ */
 	public void KMLclose() throws IOException {
 
 		kml.close_KML();
 		kml.save_KML();
 
 	}
+	
 	public void setKml(KML_Logger kml)
 	{
 		this.kml = kml;

@@ -1,4 +1,6 @@
 package gameClient;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 /**
  * The class represent the automatic game , 
@@ -7,9 +9,7 @@ import java.io.IOException;
  * in  the class we have the function  moveRobotAuto() who move the robot automacally in the graph
  * that class extends threads.
  */
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -22,8 +22,6 @@ import org.json.JSONObject;
 
 import Server.game_service;
 import dataStructure.DGraph;
-import dataStructure.edge_data;
-import dataStructure.node_data;
 import gui.GameGui_Std;
 import utils.Point3D;
 import utils.StdDraw;
@@ -46,6 +44,7 @@ public class AutoMyGameGui extends Thread
 	 */
 	public AutoMyGameGui(game_service game) throws JSONException 
 	{
+		//clock();
 		StdDraw.gameAuto= this;
 
 		StdDraw.clear();
@@ -95,9 +94,9 @@ public class AutoMyGameGui extends Thread
 
 					if(dest==-1) 
 					{	
-							this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
-							this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
-						
+						this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(), tempRobot);
+						this.gameAlgo.clearTagEdge(this.gameAlgo.getGraph());
+
 					}
 				}
 				catch (JSONException e) {
@@ -107,89 +106,11 @@ public class AutoMyGameGui extends Thread
 		}
 		//this.gameAlgo.getGameService().move();
 	}
-	//						System.out.println("if(dest==-1) ");
-	//						List <node_data> shourtestWay= new LinkedList<node_data>();
-	//						if (this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src) == -1) // if there is no fruit on the ronot's edge neibers
-	//						{
-	//							int closeSrcEdgeFruit=this.gameAlgo.theClosetestFruitToRobot(this.gameAlgo.getGraph().getNode(src).getKey());
-	//							System.out.println(closeSrcEdgeFruit+"closeSrcEdgeFruit");
-	//							shourtestWay= this.gameAlgo.getShourtestPath(tempRobot.getSrc(), closeSrcEdgeFruit);
-	//							//							System.out.println("shourtestWay.size():  "+ shourtestWay.size());
-	//							//							System.out.println("shourtestWay: "+shourtestWay);
-	//							//							System.out.println("robosrc: "+ tempRobot.getSrc());
-	//							dest =shourtestWay.get(1).getKey();
-	//							this.gameAlgo.getRobotList().get(r_id).setDest(dest);
-	//						}
-	//						else // I have fruit on one of the edge that is my neiber
-	//						{
-	//							dest=this.gameAlgo.nextNodeONMyNeib(this.gameAlgo.getGraph() , src);	
-	//							System.out.println("DEST: "+dest);
-	//						}
-	//					}
-	//
-	//					if( this.gameAlgo.getRobotList().size()>1)
-	//					{
-	//						System.out.println("RobotList().size()>1");
-	//						for (int k=0; k<this.gameAlgo.getRobotList().size()-1; k++)
-	//						{
-	//							if (this.gameAlgo.getRobotList().get(k).getDest()==this.gameAlgo.getRobotList().get(k+1).getDest()) // if to robot sent to the same dest
-	//							{
-	//								System.out.println("if dest are equls");
-	//								dest=this.gameAlgo.nextNodeRandomly(this.gameAlgo.getGraph(), this.gameAlgo.getRobotList().get(k+1).getSrc());
-	//								this.gameAlgo.getRobotList().get(k+1).setDest(dest);
-	//								this.gameAlgo.getGameService().chooseNextEdge(this.gameAlgo.getRobotList().get(k+1).getR_id(), dest);
-	//								this.gameAlgo.getGameService().move();
-	//							}
-	//						}
-	//					}
-	//
-	//					//System.out.println("move in the end of the func - the dest: "+dest);
-	//					this.gameAlgo.getGameService().chooseNextEdge(r_id, dest);
-	//					this.gameAlgo.getGameService().move();
-	//
-	//
-	//				}
-	//				catch (JSONException e) { }
-	//			} 
-	//		}
-	//	}
 
-
-
-
-	//		List<String> log = this.gameAlgo.getGameService().move();
-	//		if(log!=null) 
-	//		{
-	//			for(int i=0;i<log.size();i++) 
-	//			{
-	//				String robot_json = log.get(i);
-	//				try 
-	//				{
-	//					JSONObject line = new JSONObject(robot_json);
-	//					JSONObject currRobotStr = line.getJSONObject("Robot");
-	//					int r_id = currRobotStr.getInt("id");
-	//					int src = currRobotStr.getInt("src");
-	//					int dest = currRobotStr.getInt("dest");
-	//					String pointString=currRobotStr.getString("pos");
-	//					Point3D point = new Point3D(pointString);
-	//
-	//					Robot tempRobot=new Robot(r_id, src, dest,point);
-	//					if(dest==-1) 
-	//					{	
-	//						this.gameAlgo.bestNextNode(this.gameAlgo.getGraph(),tempRobot);
-	//						clearTagEdge(this.gameAlgo.getGraph());
-	//						
-	//						//dest = this.gameAlgo.nextNode(this.gameAlgo.getGraph(),src);
-	//						//this.gameAlgo.getGameService().chooseNextEdge(rid, dest);
-	//					}
-	//				}
-	//				catch (JSONException e) {e.printStackTrace();}
-	//			}
-	//		}
-	//		this.gameAlgo.getGameService().move();
-
-
-
+	/**
+	 * that function close the kml file
+	 * @throws IOException
+	 */
 
 	public void KMLclose() throws IOException {
 
@@ -229,20 +150,24 @@ public class AutoMyGameGui extends Thread
 			}
 		}
 	}
-	
+
 	long start = System.currentTimeMillis();
+	/**
+	 * this method Powered by the thread and call the function to move the robot
+
+	 */
 	public void run() 
 	{
 		while(this.gameAlgo.getGameService().isRunning())
 		{
 
-//			try {
-//				updateFruits();
-//				updateRobots();
-//			} catch (JSONException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
+			//			try {
+			//				updateFruits();
+			//				updateRobots();
+			//			} catch (JSONException e1) {
+			//				// TODO Auto-generated catch block
+			//				e1.printStackTrace();
+			//			}
 			this.gameAlgo.setRobotList(this.gameAlgo.initRobots(this.gameAlgo.getGameService()));
 			this.gameAlgo.setFruitList(this.gameAlgo.initFruit(this.gameAlgo.getGameService()));
 			GuiStd.paintFruit(this.gameAlgo.getFruitList());
@@ -251,7 +176,7 @@ public class AutoMyGameGui extends Thread
 			{// this.manual==true
 				try 
 				{
-					if((System.currentTimeMillis() - start) > 1000/11)
+					if((System.currentTimeMillis() - start) > 1000/9)
 					{	
 						moveRobotAuto();
 						start = System.currentTimeMillis();
@@ -259,7 +184,7 @@ public class AutoMyGameGui extends Thread
 						GuiStd.paintFruit(this.gameAlgo.getFruitList());
 						GuiStd.paintRobots(this.gameAlgo.getRobotList());
 						StdDraw.show();
-						
+
 						updateFruits();
 						updateRobots();
 					}
@@ -269,13 +194,13 @@ public class AutoMyGameGui extends Thread
 
 
 
-			try
-			{
-				sleep(15);
-			} 
-			catch (InterruptedException e) {e.printStackTrace();}
+			//			try
+			//			{
+			//				sleep(10);
+			//			} 
+			//			catch (InterruptedException e) {e.printStackTrace();}
 		}
-		
+
 		//**********Grade**********
 		if (!this.gameAlgo.getGameService().isRunning())
 		{
@@ -295,8 +220,8 @@ public class AutoMyGameGui extends Thread
 			KMLclose();
 		} catch (IOException e) {
 			e.printStackTrace();
-	}
-	
+		}
+
 
 	}
 	/**
@@ -329,5 +254,27 @@ public class AutoMyGameGui extends Thread
 		Robot currRobot= new Robot(id,src,dest,currPoint,value,speed);
 		return currRobot;
 	}
+	/**
+	 * prints a clock and the score on the screen.
+	 */
+	//    private void clock() {
+	//        try {
+	//            String gameInfo = this.gameAlgo.getGameService().toString();
+	//            JSONObject line = new JSONObject(gameInfo);
+	//            JSONObject ttt = line.getJSONObject("GameServer");
+	//            int score = ttt.getInt("grade");
+	//            StdDraw.setPenColor(Color.BLACK);
+	//            StdDraw.setPenRadius(0.4);
+	//            Font font = new Font("Arial", Font.BOLD, 15);
+	//            StdDraw.setFont(font);
+	//            StdDraw.text(Range_x.get_max()-0.0004, Range_y.get_max() - 0.0005, "Score : " + score);
+	//            StdDraw.setPenColor(Color.red);
+	//            StdDraw.setPenRadius(0.4);
+	//            StdDraw.text(Range_x.get_max()-0.0002, Range_y.get_max() ,"Time to end : " +this.gameAlgo.getGameService().timeToEnd() / 1000);
+	//        } catch (JSONException e) {
+	//            e.printStackTrace();
+	//        }
+	//        StdDraw.gameAuto = this;
+	//    }
 
 }

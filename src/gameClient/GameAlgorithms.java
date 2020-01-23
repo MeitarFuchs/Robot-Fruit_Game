@@ -35,7 +35,7 @@ public class GameAlgorithms
 	private ArrayList<Robot> robotList ;//= new ArrayList<Robot>()
 
 	private Queue<Integer> qWay=new LinkedList<Integer>() ;
-
+//constructor
 	public GameAlgorithms() 
 	{
 		graph=null;
@@ -43,6 +43,7 @@ public class GameAlgorithms
 		this.fruitList=null;
 		this.robotList=null;
 	}
+	//contructor
 	public GameAlgorithms(game_service game) throws JSONException 
 	{
 		this.graph=null;
@@ -56,25 +57,42 @@ public class GameAlgorithms
 		buildFruitList(game);
 		buildRobotList(game,g);
 	}
-
+/**
+ * 
+ * @return the game service
+ */
 	public game_service getGameService()
 	{
 		return this.game;
 	}
-
+/**
+ * change the game service
+ * @param game
+ */
 	public void setGameService(game_service game)
 	{
 		this.game=game;
 	}
+	/**
+	 * 
+	 * @return the graph of the class
+	 */
 	public DGraph getGraph()
 	{
 		return this.graph;
 	}
+	/**
+	 * change the graph of the game
+	 * @param dg
+	 */
 	public void setGraph(DGraph dg) {
 
 		this.graph=dg;
 	}
-
+/**
+ * 
+ * @return the robot list
+ */
 	public ArrayList<Robot> getRobotList()
 	{
 		return this.robotList;
@@ -86,6 +104,10 @@ public class GameAlgorithms
 	{
 		this.robotList=new ArrayList<Robot> ();
 	}
+	/**
+	 * 
+	 * @return the fruit list
+	 */
 	public ArrayList<Fruit> getFruitList()
 	{
 		return this.fruitList;
@@ -292,25 +314,21 @@ public class GameAlgorithms
 
 
 	}
-
+/**
+ * change the fruit list
+ * @param fruitList
+ */
 	public void setFruitList(ArrayList<Fruit> fruitList) {
 		this.fruitList = fruitList;
 	}
+	/**
+	 * change the robot list
+	 * @param list
+	 */
 	public void setRobotList(ArrayList<Robot> list) {
 		this.robotList =  list;
 	}
-	//	public void buildRobotListString(List<String> temp)  throws JSONException 
-	//	{	
-	//
-	//		ArrayList<Robot> tempR = new ArrayList<Robot>();
-	//		for (String stringR : temp) 
-	//		{
-	//			Robot currRobot = new Robot();
-	//			currRobot = (Robot) currRobot.initLine(stringR);
-	//			tempR.add(currRobot);
-	//		}
-	//		this.robotList = tempR;
-	//	}
+
 	/**
 	 * chose randomly the next node the robot will go
 	 * @param g the graph of the game
@@ -328,28 +346,14 @@ public class GameAlgorithms
 		while(i<r) {itr.next();i++;}
 		ans = itr.next().getDest();
 		return ans;
-		//		int ans = -1;
-		//
-		//		Collection<edge_data> ee = this.graph.getE(src);
-		//		int s = ee.size();
-		//		int [] arr=new int [s];
-		//		Iterator<edge_data> itr = ee.iterator();
-		//		int i=0;
-		//		while (itr.hasNext()) {
-		//
-		//			edge_data ed = itr.next();
-		//			int key = ed.getDest();
-		//			arr[i]=key; 
-		//			i++;
-		//		}
-		//
-		//		int r = (int)(Math.random()*s);
-		//		//		arr[r]
-		//		//		while(i<r) {itr.next();i++;}
-		//		ans = arr[r];
-		//		return ans;
-	}
 
+	}
+	/**
+	 * verify if in the neibers of the node where the robot is there is a fruit  
+	 * @param g
+	 * @param src
+	 * @return the key of the node if there is , if no he return -1
+	 */
 	public  int nextNodeONMyNeib(DGraph g, int src) 
 	{
 		int ans= -1;
@@ -369,6 +373,12 @@ public class GameAlgorithms
 		}
 		return ans;
 	}
+	/**
+	 * this method check what is the closest fruit to the robot 
+	 * and return the src of the edge of that fruit 
+	 * @param keySrc
+	 * @return
+	 */
 	public  int theClosetestFruitToRobot(int keySrc) //the src of the edge of the fruit that is the clostest to the robot
 	{
 		int SrcFruit;
@@ -398,6 +408,12 @@ public class GameAlgorithms
 		System.out.println("ansSrcFruit: "+ansSrcFruit);
 		return ansSrcFruit;
 	}
+	/**
+	 * the method receive a source and destination and return the sourtest path betwwen them
+	 * @param src
+	 * @param dest
+	 * @return
+	 */
 	public List<node_data> getShourtestPath (int src, int dest)
 	{
 		System.out.println("getShourtestPath");
@@ -406,7 +422,11 @@ public class GameAlgorithms
 		Ag.init(this.graph);
 		return Ag.shortestPath(src, dest);
 	}
-
+/**
+ * keep the 3 last node tht the robot go there
+ * @param n
+ * @return the head of the queue
+ */
 	public int queueLast3 (NodeData n) 
 	{
 
@@ -424,12 +444,8 @@ public class GameAlgorithms
 			if (!qWay.isEmpty() )//&& qWay.peek()!=n.getKey()
 			{
 				this.qWay.add(n.getKey());
-				//return n.getKey();
 			}
 		}
-		//		 if (qWay.isEmpty())
-		//			return -1;
-
 		return qWay.peek();
 	}
 	/**
@@ -616,7 +632,10 @@ public class GameAlgorithms
 		System.out.println("edgeFruit src: "+edgeFruit.getSrc()+" dest: "+edgeFruit.getDest());
 		return edgeFruit;
 	}
-
+/**
+ * this method get a list of the edge there the fruit is
+ * @return that list
+ */
 	public List<edge_data> getListOfEdgeWithFruit() 
 	{
 		List <edge_data> edgeFruitList = new LinkedList<edge_data>();
@@ -628,7 +647,10 @@ public class GameAlgorithms
 
 		return edgeFruitList;
 	}
-
+/**
+ * put zero on all the tag of the edge
+ * @param graph
+ */
 	public void clearTagEdge(DGraph graph) 
 	{
 		Iterator<node_data> itN = this.graph.getV().iterator(); 
@@ -644,55 +666,187 @@ public class GameAlgorithms
 		}
 
 	}
+	/**
+	 * this method verify to which node the robot need to go and send him there
+	 * @param dg the graph of the level
+	 * @param currRobot the robot
+	 * @throws JSONException
+	 */
+
 	public void bestNextNode (DGraph dg, Robot currRobot) throws JSONException //node_data srcNodeRobot
 	{
-		//this.robotList= initRobots(this.game);
+
+
+		this.robotList= initRobots(this.game);
 		Graph_Algo Ag = new Graph_Algo();
 		Ag.init(dg);
-		int dest=-1;
-		int last1=-1;
+		//double tempDis=0;
+		int dest;
+		//List <edge_data> edgeOfFruits= getListOfEdgeWithFruit();
+		int last1=0;
+		//double minDis = Integer.MAX_VALUE;
+		//		for (edge_data ed : edgeOfFruits) 
+		//		{
+		//			if (ed.getTag()!=1)
+		//			{	         
+		//				tempDis = Ag.shortestPathDist(currRobot.getSrc(), ed.getSrc());
+		//				System.out.println("tempdis: "+ tempDis);
+		//				if (tempDis<minDis) 
+		//				{
+		//					minDis= tempDis;
+		//					minDestEdge= ed;
+		//				}
+		//			}
+		//		}theClosetestFruitToRobot
+		int closeSrcEdgeFruit=this.theClosetestFruitToRobot(this.getGraph().getNode(currRobot.getSrc()).getKey());			
+		List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), closeSrcEdgeFruit);
+
+		System.out.println("closeSrcEdgeFruit: "+closeSrcEdgeFruit);
+		if (shortWay.size()==1)
+			dest = shortWay.get(0).getKey();
+		else
+			dest = shortWay.get(1).getKey();
+
+		//List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
+		//shortWay.add(this.graph.getNode(minDestEdge.getDest()));
+		//int last= queueLast3((NodeData) shortWay.get(1));
+		//System.out.println(shortWay.get(1).getKey());
+		//		if(currRobot.getSrc()==7)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),6);
+
+		//		if(currRobot.getSrc()==0)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),10);
+
 		if  (this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc()) != -1) 
 		{
 			dest=this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc());
 			this.game.chooseNextEdge(currRobot.getR_id(),dest);
+
 		}
+		//		else if(currRobot.getSrc()==9)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),10);
+		//		if (MyGameGUI.==0) 
+		//		{
+		else if(currRobot.getSrc()==7)
+			this.game.chooseNextEdge(currRobot.getR_id(),6);
+		else if(currRobot.getSrc()==0)
+			this.game.chooseNextEdge(currRobot.getR_id(),10);
+		//		else if(currRobot.getSrc()==10)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),9);
+		//		else if(currRobot.getSrc()==9)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),8);
+		//		
+		else {
 
-		else // i dont have fruit on my neibers
-		{
-			int closeSrcEdgeFruit=this.theClosetestFruitToRobot(this.getGraph().getNode(currRobot.getSrc()).getKey());			
-			List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), closeSrcEdgeFruit);
-
-			if (shortWay.size()==1) {
-				dest = shortWay.get(0).getKey();
-				this.game.chooseNextEdge(currRobot.getR_id(), dest);
-			}
-			else
-				dest = shortWay.get(1).getKey(); // defult dest
-
-//			if ( shortWay.size() > 1) 
-//			{
-
-				last1= queueLast3((NodeData) this.getGraph().getNode(dest));
-
-				if ((last1 == shortWay.get(1).getKey()) ) 
-				{
-					dest=nextNodeRandomly(graph, currRobot.getSrc());
-					while(dest==shortWay.get(1).getKey()) 
-					{
-						dest=nextNodeRandomly(graph, currRobot.getSrc());
-					}
-
-					this.game.chooseNextEdge(currRobot.getR_id(), dest);
-
+			this.game.chooseNextEdge(currRobot.getR_id(),dest);
+		}
+		if ( shortWay.size()>1) {
+			if ((last1 == shortWay.get(1).getKey()) )
+			{
+				if ( (shortWay.size()>2 )&& (this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc()) != -1)) {
+					dest=this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc());
+					this.game.chooseNextEdge(currRobot.getR_id(),dest);
 				}
+				else
+					dest=nextNodeRandomly(graph, currRobot.getSrc());
+				System.out.println("dest random : "+ dest);
+				//			if (dest==last1) {
+				//				dest=nextNodeRandomly(graph, currRobot.getSrc());
+				//			}
+				//dest =shortWay.get(1).getKey();
 
-			//}// end  if-shortWay.size() > 1
+				this.game.chooseNextEdge(currRobot.getR_id(), dest);
+				//this.game.move();
+			}
 		}
-		this.game.chooseNextEdge(currRobot.getR_id(), dest);
-		//this.game.move();
+		else 
+		{
+			//if (shortWay.size()==1)
+			this.game.chooseNextEdge(currRobot.getR_id(), dest);
+			//			else
+			//				this.game.chooseNextEdge(currRobot.getR_id(), shortWay.get(1).getKey());
+			//this.game.move();
+		}
+
+
+		last1= queueLast3((NodeData) this.getGraph().getNode(dest));
+		this.game.move();
+
+		//		if ( tempDis==0)//minDestEdge.getSrc() == currRobot.getSrc()
+		//		{
+		//			System.out.println("tempDis==0");
+		//			this.game.chooseNextEdge(currRobot.getR_id(), minDestEdge.getDest());
+		//			this.game.move();
+		//		}
+		//		else
+		//		{
+		//			System.out.println("else");
+		//			List <node_data> way= Ag.shortestPath(currRobot.getSrc(), minDestEdge.getSrc());
+		//			System.out.println("shortestPath  in bestNextNode");
+		//			way.add(dg.getNode(minDestEdge.getDest())); // because we want to pass the fruit not just to go to the src of the edge 
+		//			way.get(0).setTag(1);
+		//
+		//			System.out.println("srcEdge loc: "+dg.getNode(minDestEdge.getSrc()).getLocation().toString());
+		//			System.out.println("robot loc: "+currRobot.getLocation().toString());
+		//
+		//			this.game.chooseNextEdge(currRobot.getR_id(), way.get(0).getKey());
+		//			this.game.move();
+		//		}
+
+		//		//this.robotList= initRobots(this.game);
+		//		Graph_Algo Ag = new Graph_Algo();
+		//		Ag.init(dg);
+		//		int dest=-1;
+		//		int last1=-1;
+		//		if (currRobot.getSrc()==9)
+		//			this.game.chooseNextEdge(currRobot.getR_id(),8);
+		//	
+		//		if  (this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc()) != -1) 
+		//		{
+		//			dest=this.nextNodeONMyNeib(this.getGraph() , currRobot.getSrc());
+		//			this.game.chooseNextEdge(currRobot.getR_id(),dest);
+		//		}
+		//
+		//		else // i dont have fruit on my neibers
+		//		{
+		//			int closeSrcEdgeFruit=this.theClosetestFruitToRobot(this.getGraph().getNode(currRobot.getSrc()).getKey());			
+		//			List<node_data> shortWay=Ag.shortestPath(currRobot.getSrc(), closeSrcEdgeFruit);
+		//
+		//			if (shortWay.size()==1) {
+		//				dest = shortWay.get(0).getKey();
+		//				this.game.chooseNextEdge(currRobot.getR_id(), dest);
+		//			}
+		//			else
+		//				dest = shortWay.get(1).getKey(); // defult dest
+		//
+		////			if ( shortWay.size() > 1) 
+		////			{
+		//
+		//				last1= queueLast3((NodeData) this.getGraph().getNode(dest));
+		//
+		//				if ((last1 == shortWay.get(1).getKey()) ) 
+		//				{
+		//					dest=nextNodeRandomly(graph, currRobot.getSrc());
+		//					while(dest==shortWay.get(1).getKey()) 
+		//					{
+		//						dest=nextNodeRandomly(graph, currRobot.getSrc());
+		//					}
+		//
+		//					this.game.chooseNextEdge(currRobot.getR_id(), dest);
+		//
+		//				}
+		//
+		//			//}// end  if-shortWay.size() > 1
+		//		}
+		//		this.game.chooseNextEdge(currRobot.getR_id(), dest);
+		//		//this.game.move();
 	}
 
-
+/**
+ * Extract the level of the game 
+ * @return the level of the game
+ * @throws JSONException
+ */
 
 	public double getGameLevel() throws JSONException
 	{
