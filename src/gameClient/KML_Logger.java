@@ -43,15 +43,15 @@ public class KML_Logger {
 		this.strBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" );
 		this.strBuilder.append(               "<kml xmlns=\"http://earth.google.com/kml/2.2\">\r\n" );
 		this.strBuilder.append(     "  <Document>\r\n" );
-        this.strBuilder.append("  <name>" + "Game stage :" + this.level + "</name>" +"\r\n");
-        this.strBuilder.append(" <Style id=\"node\">\r\n");
-        this.strBuilder.append(   "      <IconStyle>\r\n" );
-        this.strBuilder.append(    "        <Icon>\r\n" );
-        this.strBuilder.append(    "          <href>http://maps.google.com/mapfiles/kml/pal3/icon35.png</href>\r\n");
-        this.strBuilder.append(    "        </Icon>\r\n" );
-        this.strBuilder.append( "        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n");
-        this.strBuilder.append(  "      </IconStyle>\r\n");
-        this.strBuilder.append( "    </Style>" );
+		this.strBuilder.append("  <name>" + "Game stage :" + this.level + "</name>" +"\r\n");
+		this.strBuilder.append(" <Style id=\"node\">\r\n");
+		this.strBuilder.append(   "      <IconStyle>\r\n" );
+		this.strBuilder.append(    "        <Icon>\r\n" );
+		this.strBuilder.append(    "          <href>http://maps.google.com/mapfiles/kml/pal3/icon35.png</href>\r\n");
+		this.strBuilder.append(    "        </Icon>\r\n" );
+		this.strBuilder.append( "        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n");
+		this.strBuilder.append(  "      </IconStyle>\r\n");
+		this.strBuilder.append( "    </Style>" );
 		robotFruit_Kml();
 	}
 
@@ -68,7 +68,7 @@ public class KML_Logger {
 		this.strBuilder.append("        <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/>\r\n" );
 		this.strBuilder.append( "      </IconStyle>\r\n");
 		this.strBuilder.append(  "    </Style>");
-		
+
 
 		this.strBuilder.append(     " <Style id=\"banana\">\r\n" );
 		this.strBuilder.append(    "      <IconStyle>\r\n" );
@@ -89,10 +89,10 @@ public class KML_Logger {
 	}
 
 	/**
-     * the function enter the kml the location of each element
-     * @param id the id of the robot
-     * @param position the position of the fruit
-     */
+	 * the function enter the kml the location of each element
+	 * @param id the id of the robot
+	 * @param position the position of the fruit
+	 */
 	public void placeMark(String id, String position)
 	{
 		LocalDateTime localTime = LocalDateTime.now();
@@ -104,12 +104,12 @@ public class KML_Logger {
 		this.strBuilder.append(        "      <Point>\r\n" );
 		this.strBuilder.append(        "        <coordinates>" + position + "</coordinates>\r\n" );
 		this.strBuilder.append(        "      </Point>\r\n" );
-        this.strBuilder.append(        "    </Placemark>\r\n");
+		this.strBuilder.append(        "    </Placemark>\r\n");
 	}
 
 	/**
-     *  this method close the kml file
-     */
+	 *  this method close the kml file
+	 */
 	public void close_KML()
 	{
 		this.strBuilder.append("  </Document>\r\n");
@@ -122,9 +122,11 @@ public class KML_Logger {
 	 */
 	public void save_KML() throws IOException {
 		try {
-			PrintWriter kml = new PrintWriter(new File(this.level + ".kml"));
-			kml.write(this.strBuilder.toString());
-			kml.close();
+
+			File f=new File(this.level+".kml");
+			PrintWriter pWriter=new PrintWriter(f);
+			pWriter.write( this.strBuilder.toString());
+			pWriter.close();
 		} 
 		catch (FileNotFoundException e) 
 		{

@@ -195,7 +195,7 @@ public class Graph_Algo implements graph_algorithms, Serializable
 			}
 		}
 
-		while(count < 500)	//(Math.pow(2, countEdge))
+		while(count < 50)	//(Math.pow(2, countEdge))
 		{
 			Iterator<edge_data> itEdge = this.myGraph.getE(currNode.getKey()).iterator();
 			if (itEdge.hasNext())
